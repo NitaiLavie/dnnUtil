@@ -1,6 +1,6 @@
-package dnnMessage;
+package dnnUtil.dnnMessage;
 
-import dnnModel.DnnModelDelta;
+import dnnUtil.dnnModel.DnnModelDelta;
 
 public class DnnDeltaMessage extends DnnMessage{
 	

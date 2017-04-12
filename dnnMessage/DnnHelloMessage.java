@@ -1,4 +1,4 @@
-package dnnMessage;
+package dnnUtil.dnnMessage;
 
 public class DnnHelloMessage extends DnnMessage{
 	

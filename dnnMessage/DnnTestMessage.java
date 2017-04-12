@@ -1,4 +1,4 @@
-package dnnMessage;
+package dnnUtil.dnnMessage;
 
 public class DnnTestMessage extends DnnMessage {
 	static final long serialVersionUID = 1L;

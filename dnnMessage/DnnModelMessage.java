@@ -1,6 +1,6 @@
-package dnnMessage;
+package dnnUtil.dnnMessage;
 
-import dnnModel.DnnModel;
+import dnnUtil.dnnModel.DnnModel;
 
 public class DnnModelMessage extends DnnMessage{
 	static final long serialVersionUID = 1L;

@@ -1,4 +1,4 @@
-package dnnModel;
+package dnnUtil.dnnModel;
 
 public class DnnModel {
 

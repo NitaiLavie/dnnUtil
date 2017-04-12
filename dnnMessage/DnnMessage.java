@@ -1,4 +1,4 @@
-package dnnMessage;
+package dnnUtil.dnnMessage;
 
 import java.io.Serializable;
 
