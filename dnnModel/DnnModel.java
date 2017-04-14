@@ -1,5 +1,7 @@
 package dnnUtil.dnnModel;
 
+import android.support.annotation.Keep;
+
 public class DnnModel {
 
 	// DnnModel members
@@ -17,24 +19,27 @@ public class DnnModel {
 
 	// DnnModel Methods
 	private void createModel(DnnModelParameters modelParameters){
-		jniCreateModel();
+		byte[] binaryData = jniCreateModel();
+		mModelDescriptor = new DnnModelDescriptor(binaryData);
 	}
 	private void loadModel(DnnModelDescriptor modelDescriptor){
-		jniLoadModel();
+		jniLoadModel(mModelDescriptor.getBinaryData());
 	}
 	public void updateModel(DnnModelDelta modelDelta){
-		jniUpdateModel();
+		byte[] binaryData = jniUpdateModel();
+		mModelDescriptor.setBinaryData(binaryData);
 	}
 	public void trainModel(){
-		jniTrainModel();
+		byte[] binaryData = jniTrainModel();
+		mModelDescriptor.setBinaryData(binaryData);
 	}
 
 	//
 
 	// Java Native Interface methods
-	private native void jniCreateModel();
-	private native void jniUpdateModel();
-	private native void jniLoadModel();
-	private native void jniTrainModel();
+	private native byte[] jniCreateModel();
+	private native byte[] jniUpdateModel();
+	private native void jniLoadModel(byte[] binaryData);
+	private native byte[] jniTrainModel();
 
 }
