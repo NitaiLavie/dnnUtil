@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class DnnStatistics {
+
 	private Map<String,String> mStats;
 	private String mClientName;
 	private String mStartTrainingTime;
@@ -14,7 +15,7 @@ public class DnnStatistics {
 	private String mSuccesRate;
 	private String mModelNumber;
 	private int mServerInteractionCount;
-
+	
 	public DnnStatistics(){
 		mStats = new LinkedHashMap<>();
 		
