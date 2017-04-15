@@ -47,6 +47,7 @@ public class DnnModel {
 	}
 	public DnnTrainingData getTrainingData(DnnTrainingDescriptor trainingDescriptor){
 		//Todo: add implementation
+		return null;
 	}
 
 	// Java Native Interface callback methods
