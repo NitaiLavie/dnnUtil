@@ -4,8 +4,21 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class DnnStatistics {
+	
+	private String mClientName;
+	private String mStartTrainingTime;
+	private String mFinishTrainingTime;
+	private String mDeviceName;
+	private String mMemoryFootprint;
+	private String mNumberOfTrainedEpochs;
+	private String mSuccesRate;
+	private String mModelNumber;
+	private int mServerInteractionCount;
+
+	private Map<String,String> mStats;
+	
 	public DnnStatistics(){
-		setStats(new LinkedHashMap<>());
+		mStats = new LinkedHashMap<>();
 		
 	}
 	public String getClientName() {
@@ -62,17 +75,7 @@ public class DnnStatistics {
 	public void setServerInteractionCount(int mServerInteractionCount) {
 		this.mServerInteractionCount = mServerInteractionCount;
 	}
-	private String mClientName;
-	private String mStartTrainingTime;
-	private String mFinishTrainingTime;
-	private String mDeviceName;
-	private String mMemoryFootprint;
-	private String mNumberOfTrainedEpochs;
-	private String mSuccesRate;
-	private String mModelNumber;
-	private int mServerInteractionCount;
 
-	private Map<String,String> mStats;
 	public String getStatistics(){
 		updateStatsMap();
 		String stats ="";
