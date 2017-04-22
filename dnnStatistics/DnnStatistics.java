@@ -1,9 +1,11 @@
 package dnnUtil.dnnStatistics;
 
+import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class DnnStatistics {
+public class DnnStatistics implements Serializable {
+	static final long serialVersionUID = 1L;
 
 	private Map<String,String> mStats;
 	private String mClientName;

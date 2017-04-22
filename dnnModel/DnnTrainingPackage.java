@@ -1,6 +1,9 @@
 package dnnUtil.dnnModel;
 
-public class DnnTrainingPackage {
+import java.io.Serializable;
+
+public class DnnTrainingPackage implements Serializable {
+	static final long serialVersionUID = 1L;
 	
 	private DnnModel mModel;
 	private DnnTrainingDescriptor mTrainingDescriptor;
