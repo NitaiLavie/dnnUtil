@@ -2,6 +2,8 @@ package dnnUtil.dnnModel;
 
 import java.io.Serializable;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by nitai on 13/04/17.
@@ -10,14 +12,24 @@ import java.nio.ByteBuffer;
 public class DnnModelDescriptor implements Serializable {
     static final long serialVersionUID = 1L;
 
-    private byte[] mBinaryData;
+    private List<Byte> mBinaryData;
+
     public DnnModelDescriptor(byte[] binaryData){
-        mBinaryData = binaryData;
+        mBinaryData = new ArrayList<>();
+        for(int i = 0; i < binaryData.length; i++){
+            mBinaryData.add(binaryData[i]);
+        }
     }
     public void setBinaryData(byte[] binaryData){
-        mBinaryData = binaryData;
+        for(int i = 0; i < binaryData.length; i++){
+            mBinaryData.add(binaryData[i]);
+        }
     }
     public byte[] getBinaryData(){
-        return mBinaryData;
+        byte[] binaryData = new byte[mBinaryData.size()];
+        for(int i = 0; i < binaryData.length; i++){
+            binaryData[i] = mBinaryData.get(i);
+        }
+        return binaryData;
     }
 }

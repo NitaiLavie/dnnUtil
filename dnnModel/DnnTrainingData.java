@@ -9,6 +9,7 @@ import java.io.Serializable;
 public class DnnTrainingData implements Serializable {
     static final long serialVersionUID = 1L;
 
+    //TODO: changel primitie types if we want to send this object as serialized
     private String[] mLabels;
     private int[] mLabelsData;
     private float[][] mData;

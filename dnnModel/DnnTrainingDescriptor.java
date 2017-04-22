@@ -21,7 +21,7 @@ public class DnnTrainingDescriptor implements Serializable{
 	public void setEnd(int mEnd) {
 		this.mEnd = mEnd;
 	}
-	private int mBeginning;
-	private int mEnd;
+	private Integer mBeginning;
+	private Integer mEnd;
 
 }
