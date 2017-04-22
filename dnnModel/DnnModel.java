@@ -56,6 +56,9 @@ public class DnnModel implements Serializable {
 		//Todo: add implementation
 		return null;
 	}
+	public DnnModelDescriptor getModelDescriptor(){
+		return mModelDescriptor;
+	}
 
 	// Java Native Interface callback methods
 	@Keep
