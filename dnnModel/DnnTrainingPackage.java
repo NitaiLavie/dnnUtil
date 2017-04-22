@@ -8,8 +8,8 @@ public class DnnTrainingPackage implements Serializable {
 	private DnnModelDescriptor mModelDescriptor;
 	private DnnTrainingDescriptor mTrainingDescriptor;
 	
-	public DnnTrainingPackage(DnnModel model,DnnTrainingDescriptor trainingDescriptor){
-		setModel(model);
+	public DnnTrainingPackage(DnnModelDescriptor modelDescriptor,DnnTrainingDescriptor trainingDescriptor){
+		setModel(modelDescriptor);
 		setTrainingDescriptor(trainingDescriptor);
 		
 	}
@@ -18,16 +18,16 @@ public class DnnTrainingPackage implements Serializable {
 		return mModelDescriptor;
 	}
 
-	public void setModel(DnnModel mModel) {
-		this.mModelDescriptor = mModelDescriptor;
+	public void setModel(DnnModelDescriptor modelDescriptor) {
+		this.mModelDescriptor = modelDescriptor;
 	}
 
 	public DnnTrainingDescriptor getTrainingDescriptor() {
 		return mTrainingDescriptor;
 	}
 
-	public void setTrainingDescriptor(DnnTrainingDescriptor mTrainingDescriptor) {
-		this.mTrainingDescriptor = mTrainingDescriptor;
+	public void setTrainingDescriptor(DnnTrainingDescriptor trainingDescriptor) {
+		this.mTrainingDescriptor = trainingDescriptor;
 	}
 
 }
