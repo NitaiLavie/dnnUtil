@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class DnnTrainingPackage implements Serializable {
 	static final long serialVersionUID = 1L;
 	
-	private DnnModel mModel;
+	private DnnModelDescriptor mModelDescriptor;
 	private DnnTrainingDescriptor mTrainingDescriptor;
 	
 	public DnnTrainingPackage(DnnModel model,DnnTrainingDescriptor trainingDescriptor){
@@ -14,12 +14,12 @@ public class DnnTrainingPackage implements Serializable {
 		
 	}
 
-	public DnnModel getModel() {
-		return mModel;
+	public DnnModelDescriptor getModelDescriptor() {
+		return mModelDescriptor;
 	}
 
 	public void setModel(DnnModel mModel) {
-		this.mModel = mModel;
+		this.mModelDescriptor = mModelDescriptor;
 	}
 
 	public DnnTrainingDescriptor getTrainingDescriptor() {
