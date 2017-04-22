@@ -12,7 +12,7 @@ import java.util.List;
 public class DnnModelDescriptor implements Serializable {
     static final long serialVersionUID = 1L;
 
-    private List<Byte> mBinaryData;
+    private ArrayList<Byte> mBinaryData;
 
     public DnnModelDescriptor(byte[] binaryData){
         mBinaryData = new ArrayList<>();
