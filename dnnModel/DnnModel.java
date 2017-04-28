@@ -108,7 +108,7 @@ public class DnnModel implements Serializable {
 	}
 	@Keep
 	private int getTrainingDataSize(){
-		return mTrainingData.getSize();
+		return mTrainingData.getNumOfData();
 	}
 	@Keep
 	private float[] getIndexTrainingData(int index){
