@@ -16,14 +16,16 @@ public class DnnModel implements Serializable {
 		WEIGHT, BIAS
 	}
 
-	// DnnModel members
+	// DnnModel members ============================================================================
 	private DnnModelDescriptor mModelDescriptor;
 	private DnnTrainingData mTrainingData;
 	private Map<Integer,Map<W_Type,float[]>> mWeightsData;
+	private int mNumberOfTrainingObjects;
 
-	// DnnModel constructors
+	// DnnModel constructors =======================================================================
 	public DnnModel(DnnModelParameters modelParameters){
 		mWeightsData = new HashMap<>();
+		mNumberOfTrainingObjects = loadTrainingData();
 		createModel(modelParameters);
 	}
 
@@ -33,10 +35,11 @@ public class DnnModel implements Serializable {
 		loadModel(mModelDescriptor);
 	}
 
-	// DnnModel Methods
+	// DnnModel Methods ============================================================================
 	private void createModel(DnnModelParameters modelParameters){
 		byte[] binaryData = jniCreateModel();
 		mModelDescriptor = new DnnModelDescriptor(binaryData);
+
 	}
 	private void loadModel(DnnModelDescriptor modelDescriptor){
 		jniLoadModel(mModelDescriptor.getBinaryData());
@@ -49,18 +52,18 @@ public class DnnModel implements Serializable {
 		byte[] binaryData = jniTrainModel();
 		mModelDescriptor.setBinaryData(binaryData);
 	}
-	public void loadTrainingData(){
-		jniLoadTrainingData();
+	public int loadTrainingData(){
+		return jniLoadTrainingData();
 	}
 	public DnnTrainingData getTrainingData(DnnTrainingDescriptor trainingDescriptor){
-		//Todo: add implementation
-		return null;
+		jniGetTraingData(trainingDescriptor.getBeginning(), trainingDescriptor.getEnd());
+		return mTrainingData;
 	}
 	public DnnModelDescriptor getModelDescriptor(){
 		return mModelDescriptor;
 	}
 
-	// Java Native Interface callback methods
+	// Java Native Interface callback methods ======================================================
 	@Keep
 	private void setLayerWeights(float[] weights, int layerIndex){
 		if(!mWeightsData.containsKey(layerIndex)){
@@ -118,12 +121,13 @@ public class DnnModel implements Serializable {
 
 
 
-	// Java Native Interface methods
+	// Java Native Interface methods ===============================================================
 	private native byte[] jniCreateModel();
 	private native byte[] jniUpdateModel();
 
 	private native void jniLoadModel(byte[] binaryData);
 	private native byte[] jniTrainModel();
 
-	private native void jniLoadTrainingData();
+	private native int jniLoadTrainingData();
+	private native void jniGetTraingData(int startIndex, int endIndex);
 }

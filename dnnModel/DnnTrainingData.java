@@ -20,13 +20,13 @@ public class DnnTrainingData implements Serializable {
         mData = new float[numOfData][]; // vec_t
     }
 
-    public void setLabels(String[] labels){
+    protected void setLabels(String[] labels){
         mLabels = labels;
     }
-    public void setLabelsData(int[] labelsData){
+    protected void setLabelsData(int[] labelsData){
         mLabelsData = labelsData;
     }
-    public void setData(float[][] data){
+    protected void setData(float[][] data){
         mData = data;
     }
 
@@ -40,13 +40,13 @@ public class DnnTrainingData implements Serializable {
         return mData;
     }
 
-    public void setIndexLabel(int index, String label){
+    protected void setIndexLabel(int index, String label){
         mLabels[index] = label;
     }
-    public void setIndexLabelData(int index, int labelData){
+    protected void setIndexLabelData(int index, int labelData){
         mLabelsData[index] = labelData;
     }
-    public void setIndexData(int index, float[] data){
+    protected void setIndexData(int index, float[] data){
         mData[index] = data;
     }
 

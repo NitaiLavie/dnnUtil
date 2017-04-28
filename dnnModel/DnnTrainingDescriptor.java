@@ -4,7 +4,10 @@ import java.io.Serializable;
 
 public class DnnTrainingDescriptor implements Serializable{
 	static final long serialVersionUID = 1L;
-	
+
+	private Integer mBeginning;
+	private Integer mEnd;
+
 	public DnnTrainingDescriptor(int beginning, int end){
 		setBeginning(beginning);
 		setEnd(end);
@@ -12,16 +15,14 @@ public class DnnTrainingDescriptor implements Serializable{
 	public int getBeginning() {
 		return mBeginning;
 	}
-	public void setBeginning(int mBeginning) {
+	private void setBeginning(int mBeginning) {
 		this.mBeginning = mBeginning;
 	}
 	public int getEnd() {
 		return mEnd;
 	}
-	public void setEnd(int mEnd) {
+	private void setEnd(int mEnd) {
 		this.mEnd = mEnd;
 	}
-	private Integer mBeginning;
-	private Integer mEnd;
 
 }
