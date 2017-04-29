@@ -6,11 +6,11 @@ public class DnnTrainingPackage implements Serializable {
 	static final long serialVersionUID = 1L;
 	
 	private DnnModelDescriptor mModelDescriptor;
-	private DnnTrainingDescriptor mTrainingDescriptor;
+	private DnnTrainingData mTrainingData;
 	
-	public DnnTrainingPackage(DnnModelDescriptor modelDescriptor,DnnTrainingDescriptor trainingDescriptor){
+	public DnnTrainingPackage(DnnModelDescriptor modelDescriptor,DnnTrainingData trainingData){
 		setModel(modelDescriptor);
-		setTrainingDescriptor(trainingDescriptor);
+		setTrainingData(trainingData);
 		
 	}
 
@@ -22,12 +22,12 @@ public class DnnTrainingPackage implements Serializable {
 		this.mModelDescriptor = modelDescriptor;
 	}
 
-	public DnnTrainingDescriptor getTrainingDescriptor() {
-		return mTrainingDescriptor;
+	public DnnTrainingData getTrainingDescriptor() {
+		return mTrainingData;
 	}
 
-	public void setTrainingDescriptor(DnnTrainingDescriptor trainingDescriptor) {
-		this.mTrainingDescriptor = trainingDescriptor;
+	public void setTrainingData(DnnTrainingData trainingData) {
+		this.mTrainingData = trainingData;
 	}
 
 }
