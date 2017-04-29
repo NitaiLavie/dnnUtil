@@ -1,9 +1,7 @@
 package dnnUtil.dnnModel;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
-import android.support.annotation.Keep;
+//import android.support.annotation.Keep;
 
 public class DnnModel implements Serializable {
 	static final long serialVersionUID = 1L;
@@ -12,25 +10,19 @@ public class DnnModel implements Serializable {
 		System.loadLibrary("native-dnn-model");
 	}
 
-	private static enum W_Type {
-		WEIGHT, BIAS
-	}
-
 	// DnnModel members ============================================================================
 	private DnnModelDescriptor mModelDescriptor;
 	private DnnTrainingData mTrainingData;
-	private Map<Integer,Map<W_Type,float[]>> mWeightsData;
+	private DnnWeightsData mWeightsData;
 	private int mNumberOfTrainingObjects;
 
 	// DnnModel constructors =======================================================================
 	public DnnModel(DnnModelParameters modelParameters){
-		mWeightsData = new HashMap<>();
 		mNumberOfTrainingObjects = loadTrainingData();
 		createModel(modelParameters);
 	}
 
 	public DnnModel(DnnModelDescriptor modelDescriptor){
-		mWeightsData = new HashMap<>();
 		mModelDescriptor = modelDescriptor;
 		loadModel(mModelDescriptor);
 	}
@@ -59,62 +51,62 @@ public class DnnModel implements Serializable {
 		jniGetTraingData(trainingDescriptor.getBeginning(), trainingDescriptor.getEnd());
 		return mTrainingData;
 	}
+	public void setTrainingData(DnnTrainingData trainingData){
+		mTrainingData = trainingData;
+		mNumberOfTrainingObjects = mTrainingData.getNumOfData();
+		int numOfData = mTrainingData.getNumOfData();
+		int dataSize = mTrainingData.getSizeOfData();
+		float[] data = new float[numOfData*dataSize];
+		int[] labels = new int[numOfData];
+		float[] line;
+		for(int i = 0; i<numOfData; i++){
+			labels[i] = mTrainingData.getIndexLabelData(i);
+			line = mTrainingData.getIndexData(i);
+			for(int j=0; j<dataSize; j++){
+				data[i*dataSize + j] = line[j];
+			}
+		}
+	}
 	public DnnModelDescriptor getModelDescriptor(){
 		return mModelDescriptor;
 	}
 
 	// Java Native Interface callback methods ======================================================
-	@Keep
+	//@Keep
 	private void setLayerWeights(float[] weights, int layerIndex){
-		if(!mWeightsData.containsKey(layerIndex)){
-			mWeightsData.put(layerIndex,new HashMap<W_Type,float[]>());
-		}
-		mWeightsData.get(layerIndex).put(W_Type.WEIGHT,weights);
+		mWeightsData.setLayerWeights(weights, layerIndex);
 	}
-	@Keep
+	//@Keep
 	private void setLayerBiases(float[] biases, int layerIndex){
-		if(!mWeightsData.containsKey(layerIndex)){
-			mWeightsData.put(layerIndex,new HashMap<W_Type,float[]>());
-		}
-		mWeightsData.get(layerIndex).put(W_Type.BIAS,biases);
+		mWeightsData.setLayerBiases(biases, layerIndex);
 	}
-	@Keep
+	//@Keep
 	private float[] getLayerWeights(int layerIndex){
-		if(!mWeightsData.containsKey(layerIndex)){
-			// in case the layer doesn't exist will create it and return null
-			mWeightsData.put(layerIndex,new HashMap<W_Type,float[]>());
-			mWeightsData.get(layerIndex).put(W_Type.WEIGHT,null);
-		}
-		return mWeightsData.get(layerIndex).get(W_Type.WEIGHT);
+		return mWeightsData.getLayerWeights(layerIndex);
 	}
-	@Keep
+	//@Keep
 	private float[] getLayerBiases(int layerIndex){
-		if(!mWeightsData.containsKey(layerIndex)){
-			// in case the layer doesn't exist will create it and return null
-			mWeightsData.put(layerIndex,new HashMap<W_Type,float[]>());
-			mWeightsData.get(layerIndex).put(W_Type.BIAS,null);
-		}
-		return mWeightsData.get(layerIndex).get(W_Type.BIAS);
+		return mWeightsData.getLayerBiases(layerIndex);
 	}
 
-	@Keep
-	private void initTrainingData(int numOfLabels, int numOfData){
-		mTrainingData = new DnnTrainingData(numOfLabels, numOfData);
+	//@Keep
+	private void initTrainingData(int numOfLabels, int numOfData, int sizeOfData){
+		mTrainingData = new DnnTrainingData(numOfLabels, numOfData, sizeOfData);
 	}
-	@Keep
+	//@Keep
 	private void setIndexTrainingData(int index, int label, float[] data){
 		mTrainingData.setIndexLabelData(index, label);
 		mTrainingData.setIndexData(index, data);
 	}
-	@Keep
+	//@Keep
 	private int getTrainingDataSize(){
 		return mTrainingData.getNumOfData();
 	}
-	@Keep
+	//@Keep
 	private float[] getIndexTrainingData(int index){
 		return mTrainingData.getIndexData(index);
 	}
-	@Keep
+	//@Keep
 	private int getIndexTrainingLabelData(int index){
 		return mTrainingData.getIndexLabelData(index);
 	}
@@ -130,4 +122,5 @@ public class DnnModel implements Serializable {
 
 	private native int jniLoadTrainingData();
 	private native void jniGetTraingData(int startIndex, int endIndex);
+	private native void jniSetTrainingData(float[] data, int[] labels, int numOfData, int dataSize);
 }

@@ -14,12 +14,14 @@ public class DnnTrainingData implements Serializable {
     //TODO: changel primitie types if we want to send this object as serialized
     private HashMap<Integer, String> mLabels;
     Integer mNumOfData;
+    Integer mSizeOfData;
     Integer mNumOfLabels;
     private ArrayList<Integer> mLabelsData;
     private ArrayList<ArrayList<Float>> mData;
 
-    public DnnTrainingData(int numOfLabels, int numOfData){
+    public DnnTrainingData(int numOfLabels, int numOfData, int sizeOfData){
         mNumOfData = numOfData;
+        mSizeOfData = sizeOfData;
         mNumOfLabels = numOfLabels;
         mLabels = new HashMap<>();
         mLabelsData = new ArrayList<>(); // label_t
@@ -73,10 +75,10 @@ public class DnnTrainingData implements Serializable {
         mLabels.put(index, label);
     }
     protected void setIndexLabelData(int index, int labelData){
-        mLabelsData.add(index, labelData);
+        mLabelsData.set(index, labelData);
     }
     protected void setIndexData(int index, float[] data){
-        mData.add(index, new ArrayList<Float>());
+        mData.set(index, new ArrayList<Float>());
         for(int j = 0; j < data.length; j++){
             mData.get(index).add(data[j]);
         }
@@ -101,6 +103,9 @@ public class DnnTrainingData implements Serializable {
     }
     public int getNumOfLabels(){
         return mNumOfLabels;
+    }
+    public int getSizeOfData(){
+        return mSizeOfData;
     }
 
 }

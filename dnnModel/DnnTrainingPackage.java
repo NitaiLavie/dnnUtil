@@ -22,7 +22,7 @@ public class DnnTrainingPackage implements Serializable {
 		this.mModelDescriptor = modelDescriptor;
 	}
 
-	public DnnTrainingData getTrainingDescriptor() {
+	public DnnTrainingData getTrainingData() {
 		return mTrainingData;
 	}
 
