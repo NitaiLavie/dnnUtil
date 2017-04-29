@@ -12,6 +12,7 @@ import java.util.List;
 public class DnnModelDescriptor implements Serializable {
     static final long serialVersionUID = 1L;
 
+    private Integer mModelId;
     private ArrayList<Byte> mBinaryData;
 
     public DnnModelDescriptor(byte[] binaryData){
@@ -31,5 +32,11 @@ public class DnnModelDescriptor implements Serializable {
             binaryData[i] = mBinaryData.get(i);
         }
         return binaryData;
+    }
+    public Integer getModelId(){
+    	return mModelId;
+    }
+    public void setModelId(Integer id){
+    	mModelId = id;
     }
 }

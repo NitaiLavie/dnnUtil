@@ -70,6 +70,9 @@ public class DnnModel implements Serializable {
 	public DnnModelDescriptor getModelDescriptor(){
 		return mModelDescriptor;
 	}
+	public Integer getNumberOfTrainingObjects() {
+		return mNumberOfTrainingObjects;
+	}
 
 	// Java Native Interface callback methods ======================================================
 	//@Keep
