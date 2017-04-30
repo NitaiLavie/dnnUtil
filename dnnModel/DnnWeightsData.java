@@ -31,7 +31,7 @@ public class DnnWeightsData implements Serializable {
         Layer_Weights layer = new Layer_Weights();
         layer.put(W_Type.WEIGHT, vec);
 
-        mWeightsData.set(layerIndex,layer);
+        mWeightsData.add(layerIndex,layer);
     }
     public void setLayerBiases(float[] biases, int layerIndex){
         W_Vec vec = new W_Vec();
@@ -41,7 +41,7 @@ public class DnnWeightsData implements Serializable {
         Layer_Weights layer = new Layer_Weights();
         layer.put(W_Type.BIAS, vec);
 
-        mWeightsData.set(layerIndex,layer);
+        mWeightsData.add(layerIndex,layer);
     }
     public float[] getLayerWeights(int layerIndex){
         float[] layerWeights;
