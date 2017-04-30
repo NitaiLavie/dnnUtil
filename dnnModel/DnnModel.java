@@ -45,7 +45,7 @@ public class DnnModel implements Serializable {
 	}
 	public void trainModel(){
 		byte[] binaryData = jniTrainModel();
-		mModelDescriptor.setBinaryData(binaryData);
+		//mModelDescriptor.setBinaryData(binaryData);
 	}
 	public int loadTrainingData(){
 		return jniLoadTrainingData();
@@ -59,6 +59,7 @@ public class DnnModel implements Serializable {
 		mNumberOfTrainingObjects = mTrainingData.getNumOfData();
 		int numOfData = mTrainingData.getNumOfData();
 		int dataSize = mTrainingData.getSizeOfData();
+		int numOfLabels = mTrainingData.getNumOfLabels();
 		float[] data = new float[numOfData*dataSize];
 		int[] labels = new int[numOfData];
 		float[] line;
@@ -69,6 +70,7 @@ public class DnnModel implements Serializable {
 				data[i*dataSize + j] = line[j];
 			}
 		}
+		jniSetTrainingData(data,labels,numOfData,dataSize,numOfLabels);
 	}
 	public DnnModelDescriptor getModelDescriptor(){
 		return mModelDescriptor;
@@ -84,6 +86,10 @@ public class DnnModel implements Serializable {
 	}
 
 	// Java Native Interface callback methods ======================================================
+	//@Keep
+	private void initWeightsData(int numOfLabels, int numOfData, int sizeOfData){
+		mWeightsData = new DnnWeightsData();
+	}
 	//@Keep
 	private void setLayerWeights(float[] weights, int layerIndex){
 		mWeightsData.setLayerWeights(weights, layerIndex);
@@ -134,5 +140,9 @@ public class DnnModel implements Serializable {
 
 	private native int jniLoadTrainingData();
 	private native void jniGetTraingData(int startIndex, int endIndex);
-	private native void jniSetTrainingData(float[] data, int[] labels, int numOfData, int dataSize);
+	private native void jniSetTrainingData(float[] data, int[] labels, int numOfData, int dataSize, int numOfLabels);
+
+	private native void jniGetWeightsData();
+	private native void jniSetWeightsData();
+
 }

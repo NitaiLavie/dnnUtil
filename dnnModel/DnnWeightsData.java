@@ -20,7 +20,7 @@ public class DnnWeightsData implements Serializable {
     private ArrayList<Layer_Weights> mWeightsData;
 
     public DnnWeightsData(){
-
+        mWeightsData = new ArrayList<>();
     }
 
     public void setLayerWeights(float[] weights, int layerIndex){
