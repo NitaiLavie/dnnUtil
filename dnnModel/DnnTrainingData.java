@@ -75,10 +75,10 @@ public class DnnTrainingData implements Serializable {
         mLabels.put(index, label);
     }
     protected void setIndexLabelData(int index, int labelData){
-        mLabelsData.set(index, labelData);
+        mLabelsData.add(index, labelData);
     }
     protected void setIndexData(int index, float[] data){
-        mData.set(index, new ArrayList<Float>());
+        mData.add(index, new ArrayList<Float>());
         for(int j = 0; j < data.length; j++){
             mData.get(index).add(data[j]);
         }
