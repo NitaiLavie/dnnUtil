@@ -15,19 +15,17 @@ public class DnnModel implements Serializable {
 	private DnnTrainingData mTrainingData;
 	private DnnWeightsData mWeightsData;
 	private int mNumberOfTrainingObjects;
-	private int mSectionLength;
+	private int mNumberOfTestingObjects;
 
 	// DnnModel constructors =======================================================================
 	public DnnModel(DnnModelParameters modelParameters){
 		mNumberOfTrainingObjects = loadTrainingData();
 		createModel(modelParameters);
-		mSectionLength =100;
 	}
 
 	public DnnModel(DnnModelDescriptor modelDescriptor){
 		mModelDescriptor = modelDescriptor;
 		loadModel(mModelDescriptor);
-		mSectionLength =100;
 	}
 
 	// DnnModel Methods ============================================================================
@@ -78,11 +76,8 @@ public class DnnModel implements Serializable {
 	public Integer getNumberOfTrainingObjects() {
 		return mNumberOfTrainingObjects;
 	}
-	public int getSectionLength(){
-		return mSectionLength;
-	}
-	public void setSectionLength(int sectionLength){
-		mSectionLength = sectionLength;
+	public Integer getNumberOfTestingObjects(){
+		return mNumberOfTestingObjects;
 	}
 
 	// Java Native Interface callback methods ======================================================
