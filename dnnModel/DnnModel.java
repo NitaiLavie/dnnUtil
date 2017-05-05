@@ -15,6 +15,7 @@ public class DnnModel implements Serializable {
 	private DnnTrainingData mTrainingData;
 	private DnnWeightsData mWeightsData;
 	private int mNumberOfTrainingObjects;
+	private int mNumberOfTestingObjects;
 
 	// DnnModel constructors =======================================================================
 	public DnnModel(DnnModelParameters modelParameters){
@@ -82,6 +83,9 @@ public class DnnModel implements Serializable {
 	}
 	public Integer getNumberOfTrainingObjects() {
 		return mNumberOfTrainingObjects;
+	}
+	public Integer getNumberOfTestingObjects(){
+		return mNumberOfTestingObjects;
 	}
 
 
