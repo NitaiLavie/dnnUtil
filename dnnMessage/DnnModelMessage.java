@@ -6,7 +6,7 @@ public class DnnModelMessage extends DnnMessage{
 	static final long serialVersionUID = 1L;
 
 	public DnnModelMessage(String senderName, DnnModel messageContent){
-		mMessageType = MessageType.DELTA;
+		mMessageType = MessageType.MODEL;
 		mMessageContent = messageContent;
 		mSenderName = senderName;
 

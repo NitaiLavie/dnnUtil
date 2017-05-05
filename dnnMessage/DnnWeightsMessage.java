@@ -7,7 +7,7 @@ public class DnnWeightsMessage extends DnnMessage{
 	private static final long serialVersionUID = 1L;
 	
 	public DnnWeightsMessage(String senderName, DnnWeightsData messageContent) {
-		mMessageType = MessageType.MODEL;
+		mMessageType = MessageType.WEIGHTS;
 		mMessageContent = messageContent;
 		mSenderName = senderName;
 	}

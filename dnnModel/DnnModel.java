@@ -37,10 +37,6 @@ public class DnnModel implements Serializable {
 	private void loadModel(DnnModelDescriptor modelDescriptor){
 		jniLoadModel(mModelDescriptor.getBinaryData());
 	}
-	public void updateModel(DnnModelDelta modelDelta){
-		byte[] binaryData = jniUpdateModel();
-		mModelDescriptor.setBinaryData(binaryData);
-	}
 	public void trainModel(){
 		byte[] binaryData = jniTrainModel();
 		//mModelDescriptor.setBinaryData(binaryData);
