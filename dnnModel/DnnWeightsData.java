@@ -28,20 +28,32 @@ public class DnnWeightsData implements Serializable {
         for(int i = 0; i<weights.length; i++){
             vec.add(weights[i]);
         }
-        Layer_Weights layer = new Layer_Weights();
-        layer.put(W_Type.WEIGHT, vec);
 
-        mWeightsData.add(layerIndex,layer);
+        Layer_Weights layer;
+        try{
+            layer = mWeightsData.get(layerIndex);
+            layer.put(W_Type.WEIGHT, vec);
+        } catch (IndexOutOfBoundsException e){
+            layer = new Layer_Weights();
+            layer.put(W_Type.WEIGHT, vec);
+            mWeightsData.add(layerIndex,layer);
+        }
     }
     public void setLayerBiases(float[] biases, int layerIndex){
         W_Vec vec = new W_Vec();
         for(int i = 0; i<biases.length; i++){
             vec.add(biases[i]);
         }
-        Layer_Weights layer = new Layer_Weights();
-        layer.put(W_Type.BIAS, vec);
 
-        mWeightsData.add(layerIndex,layer);
+        Layer_Weights layer;
+        try{
+            layer = mWeightsData.get(layerIndex);
+            layer.put(W_Type.BIAS, vec);
+        } catch (IndexOutOfBoundsException e){
+            layer = new Layer_Weights();
+            layer.put(W_Type.BIAS, vec);
+            mWeightsData.add(layerIndex,layer);
+        }
     }
     public float[] getLayerWeights(int layerIndex){
         float[] layerWeights;
