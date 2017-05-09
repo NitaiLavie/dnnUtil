@@ -6,7 +6,7 @@ public abstract class DnnMessage implements Serializable {
 	static final long serialVersionUID = 2L;
 	// defines the message type
 	public static enum MessageType{
-		MODEL, WEIGHTS, TEST, STRING, STATISTICS, HELLO, TRAININGDATA
+		MODEL, WEIGHTS, TEST, STRING, STATISTICS, READY, HELLO, TRAININGDATA 
 	}
 	
 	protected String mSenderName;
