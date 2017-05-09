@@ -22,7 +22,46 @@ public class DnnWeightsData implements Serializable {
     public DnnWeightsData(){
         mWeightsData = new ArrayList<>();
     }
+    
+    public DnnWeightsData addWeights(DnnWeightsData addedWeightsData){
+    	DnnWeightsData updatedWeightsData = new DnnWeightsData();
+    	for(int layerIndex = 0; layerIndex < mWeightsData.size(); layerIndex++){
+    		float[] weights = getLayerWeights(layerIndex);
+    		float[] newWeights = addedWeightsData.getLayerWeights(layerIndex);
+    		float[] updatedWeights = new float[weights.length];
 
+    		for(int weightIndex = 0; weightIndex < weights.length; weightIndex ++){
+    			updatedWeights[weightIndex] = weights[weightIndex] + newWeights[weightIndex]; 
+    		}
+    		updatedWeightsData.setLayerWeights(updatedWeights, layerIndex);
+    		
+    		float[] biases = getLayerWeights(layerIndex);
+    		float[] newBiases = addedWeightsData.getLayerWeights(layerIndex);
+    		float[] updatedBiases= new float[biases.length];
+
+    		for(int biasIndex = 0; biasIndex < biases.length; biasIndex ++){
+    			updatedBiases[biasIndex] = biases[biasIndex] + newBiases[biasIndex]; 
+    		}
+    		updatedWeightsData.setLayerBiases(updatedBiases, layerIndex);
+    	}
+    	return updatedWeightsData;
+    }
+    
+    public void scaleWeights(Float scale){
+    	for(int layerIndex = 0; layerIndex < mWeightsData.size(); layerIndex++){
+    		float[] weights = getLayerWeights(layerIndex);
+    		for(int weightIndex = 0; weightIndex < weights.length; weightIndex ++){
+    			weights[weightIndex] = weights[weightIndex] * scale; 
+    		}
+    		setLayerWeights(weights, layerIndex);  
+    		float[] baiases = getLayerBiases(layerIndex);
+    		for(int weightIndex = 0; weightIndex < baiases.length; weightIndex ++){
+    			baiases[weightIndex] = baiases[weightIndex] * scale; 
+    		}
+    		setLayerBiases(baiases, layerIndex); 
+    	}
+    }
+    
     public void setLayerWeights(float[] weights, int layerIndex){
         W_Vec vec = new W_Vec();
         for(int i = 0; i<weights.length; i++){
