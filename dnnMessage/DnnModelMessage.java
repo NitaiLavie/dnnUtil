@@ -1,6 +1,5 @@
 package dnnUtil.dnnMessage;
 
-import dnnUtil.dnnModel.DnnModel;
 import dnnUtil.dnnModel.DnnModelDescriptor;
 
 public class DnnModelMessage extends DnnMessage{
