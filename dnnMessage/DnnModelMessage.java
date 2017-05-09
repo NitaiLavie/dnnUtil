@@ -1,19 +1,21 @@
 package dnnUtil.dnnMessage;
 
 import dnnUtil.dnnModel.DnnModel;
+import dnnUtil.dnnModel.DnnModelDescriptor;
 
 public class DnnModelMessage extends DnnMessage{
 	static final long serialVersionUID = 1L;
 
-	public DnnModelMessage(String senderName, DnnModel messageContent){
+	private DnnModelDescriptor mMessageContent;
+
+	public DnnModelMessage(String senderName, DnnModelDescriptor messageContent){
 		mMessageType = MessageType.MODEL;
 		mMessageContent = messageContent;
 		mSenderName = senderName;
-
 	}
-	private DnnModel mMessageContent;
+
 	@Override
-	public DnnModel getContent() {
+	public DnnModelDescriptor getContent() {
 		return mMessageContent;
 	}
 }
