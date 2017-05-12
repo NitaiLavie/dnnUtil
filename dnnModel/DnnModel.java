@@ -45,7 +45,7 @@ public class DnnModel implements Serializable {
 		return jniLoadTrainingData();
 	}
 	public DnnTrainingData getTrainingData(DnnTrainingDescriptor trainingDescriptor){
-		jniGetTraingData(trainingDescriptor.getBeginning(), trainingDescriptor.getEnd());
+		jniGetTrainingData(trainingDescriptor.getBeginning(), trainingDescriptor.getEnd());
 		return mTrainingData;
 	}
 	public void setTrainingData(DnnTrainingData trainingData){
@@ -137,7 +137,7 @@ public class DnnModel implements Serializable {
 	private native byte[] jniTrainModel();
 
 	private native int jniLoadTrainingData();
-	private native void jniGetTraingData(int startIndex, int endIndex);
+	private native void jniGetTrainingData(int startIndex, int endIndex);
 	private native void jniSetTrainingData(float[] data, int[] labels, int numOfData, int dataSize, int numOfLabels);
 
 	private native void jniGetWeightsData();
