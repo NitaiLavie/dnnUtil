@@ -3,7 +3,6 @@ package dnnUtil.dnnModel;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by nitai on 29/04/17.
