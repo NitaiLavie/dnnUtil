@@ -32,4 +32,9 @@ public class DnnTimer {
     public long getTime(){
         return mTime;
     }
+
+    @Override
+    public String toString(){
+        return Long.toString(mTime);
+    }
 }
