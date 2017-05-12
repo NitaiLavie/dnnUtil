@@ -15,8 +15,12 @@ public class DnnWeightsData implements Serializable {
     private enum W_Type {
         WEIGHT, BIAS
     }
-    private class W_Vec extends ArrayList<Float>{}
-    private class Layer_Weights extends HashMap<W_Type,W_Vec>{}
+    private class W_Vec extends ArrayList<Float>{
+        static final long serialVersionUID = 1L;
+    }
+    private class Layer_Weights extends HashMap<W_Type,W_Vec>{
+        static final long serialVersionUID = 1L;
+    }
     private ArrayList<Layer_Weights> mWeightsData;
 
     public DnnWeightsData(){
