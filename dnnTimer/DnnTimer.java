@@ -35,6 +35,6 @@ public class DnnTimer {
 
     @Override
     public String toString(){
-        return Long.toString(mTime);
+        return Long.toString(mTime) + "ms";
     }
 }
