@@ -21,11 +21,11 @@ public class DnnTimer {
 
     public void start(){
         mTime = 0;
-        mStartTime = System.currentTimeMillis();
+        mStartTime = System.nanoTime();
     }
 
     public void stop(){
-        mStopTime = System.currentTimeMillis();
+        mStopTime = System.nanoTime();
         mTime = mStopTime - mStartTime;
     }
 
@@ -35,6 +35,14 @@ public class DnnTimer {
 
     @Override
     public String toString(){
-        return Long.toString(mTime) + "ms";
+        if(mTime < 1e3 ){
+            return Long.toString(mTime) + "ns";
+        } else if (mTime < 1e6) {
+            return Double.toString(mTime/1e3) + "μs";
+        } else if (mTime < 1e9){
+            return Double.toString((mTime-(mTime%1e3))/1e6) + "ms";
+        } else {
+            return Double.toString((mTime-(mTime%1e6))/1e9) + "s";
+        }
     }
 }

@@ -11,13 +11,13 @@ import java.util.HashMap;
 public class DnnWeightsData implements Serializable {
     static final long serialVersionUID = 1L;
 
-    private enum W_Type {
-        WEIGHT, BIAS
-    }
+    public static final Integer WEIGHT  = 0;
+    public static final Integer BIAS    = 1;
+
     private class W_Vec extends ArrayList<Float>{
         static final long serialVersionUID = 1L;
     }
-    private class Layer_Weights extends HashMap<W_Type,W_Vec>{
+    private class Layer_Weights extends HashMap<Integer,W_Vec>{
         static final long serialVersionUID = 1L;
     }
     private ArrayList<Layer_Weights> mWeightsData;
@@ -74,10 +74,10 @@ public class DnnWeightsData implements Serializable {
         Layer_Weights layer;
         try{
             layer = mWeightsData.get(layerIndex);
-            layer.put(W_Type.WEIGHT, vec);
+            layer.put(WEIGHT, vec);
         } catch (IndexOutOfBoundsException e){
             layer = new Layer_Weights();
-            layer.put(W_Type.WEIGHT, vec);
+            layer.put(WEIGHT, vec);
             mWeightsData.add(layerIndex,layer);
         }
     }
@@ -90,10 +90,10 @@ public class DnnWeightsData implements Serializable {
         Layer_Weights layer;
         try{
             layer = mWeightsData.get(layerIndex);
-            layer.put(W_Type.BIAS, vec);
+            layer.put(BIAS, vec);
         } catch (IndexOutOfBoundsException e){
             layer = new Layer_Weights();
-            layer.put(W_Type.BIAS, vec);
+            layer.put(BIAS, vec);
             mWeightsData.add(layerIndex,layer);
         }
     }
@@ -101,7 +101,7 @@ public class DnnWeightsData implements Serializable {
         float[] layerWeights;
         try{
             Layer_Weights layer = mWeightsData.get(layerIndex);
-            W_Vec vec = layer.get(W_Type.WEIGHT);
+            W_Vec vec = layer.get(WEIGHT);
             layerWeights = new float[vec.size()];
             for( int i = 0; i<layerWeights.length; i++){
                 layerWeights[i] = vec.get(i);
@@ -116,7 +116,7 @@ public class DnnWeightsData implements Serializable {
         float[] layerBiases;
         try{
             Layer_Weights layer = mWeightsData.get(layerIndex);
-            W_Vec vec = layer.get(W_Type.BIAS);
+            W_Vec vec = layer.get(BIAS);
             layerBiases = new float[vec.size()];
             for( int i = 0; i<layerBiases.length; i++){
                 layerBiases[i] = vec.get(i);

@@ -87,43 +87,43 @@ public class DnnModel implements Serializable {
 
 	// Java Native Interface callback methods ======================================================
 	//@Keep
-	private void initWeightsData(){
+	private synchronized void initWeightsData(){
 		mWeightsData = new DnnWeightsData();
 	}
 	//@Keep
-	private void setLayerWeights(float[] weights, int layerIndex){
+	private synchronized void setLayerWeights(float[] weights, int layerIndex){
 		mWeightsData.setLayerWeights(weights, layerIndex);
 	}
 	//@Keep
-	private void setLayerBiases(float[] biases, int layerIndex){
+	private synchronized void setLayerBiases(float[] biases, int layerIndex){
 		mWeightsData.setLayerBiases(biases, layerIndex);
 	}
 	//@Keep
-	private void getLayerWeightsData(int layerIndex){
+	private synchronized void getLayerWeightsData(int layerIndex){
 		float[] weights = mWeightsData.getLayerWeights(layerIndex);
 		float[] biases =  mWeightsData.getLayerBiases(layerIndex);
 		jniSetLayerWeightsData(layerIndex, weights, biases);
 	}
 
 	//@Keep
-	private void initTrainingData(int numOfLabels, int numOfData, int sizeOfData){
+	private synchronized void initTrainingData(int numOfLabels, int numOfData, int sizeOfData){
 		mTrainingData = new DnnTrainingData(numOfLabels, numOfData, sizeOfData);
 	}
 	//@Keep
-	private void setIndexTrainingData(int index, int label, float[] data){
+	private synchronized void setIndexTrainingData(int index, int label, float[] data){
 		mTrainingData.setIndexLabelData(index, label);
 		mTrainingData.setIndexData(index, data);
 	}
 	//@Keep
-	private int getTrainingDataSize(){
+	private synchronized int getTrainingDataSize(){
 		return mTrainingData.getNumOfData();
 	}
 	//@Keep
-	private float[] getIndexTrainingData(int index){
+	private synchronized float[] getIndexTrainingData(int index){
 		return mTrainingData.getIndexData(index);
 	}
 	//@Keep
-	private int getIndexTrainingLabelData(int index){
+	private synchronized int getIndexTrainingLabelData(int index){
 		return mTrainingData.getIndexLabelData(index);
 	}
 
