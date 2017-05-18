@@ -17,41 +17,34 @@ public class DnnTrainingData implements Serializable {
     Integer mNumOfData;
     Integer mSizeOfData;
     Integer mNumOfLabels;
-    private ArrayList<String> mLabels;
-    private ArrayList<Integer> mLabelsData;
-    private ArrayList<Float> mData;
+    private String[] mLabels;
+    private Integer[] mLabelsData;
+    private Float[] mData;
 
     public DnnTrainingData(int numOfLabels, int numOfData, int sizeOfData){
         mNumOfData = numOfData;
         mSizeOfData = sizeOfData;
         mNumOfLabels = numOfLabels;
-        mLabels = new ArrayList<>();
-        mLabelsData = new ArrayList<>(); // label_t
-        mData = new ArrayList<>(); // vec_t
     }
 
     protected void setLabels(String[] labels){
-        mLabels = (ArrayList<String>) Arrays.asList(labels);
+        mLabels = labels;
     }
     protected void setLabelsData(int[] labelsData){
-        Integer[] tmp = ArrayUtils.toObject(labelsData);
-        mLabelsData = (ArrayList<Integer>) Arrays.asList(tmp);
+        mLabelsData = ArrayUtils.toObject(labelsData);
     }
     protected void setData(float[] data){
-        Float[] tmp = ArrayUtils.toObject(data);
-        mData = (ArrayList<Float>) Arrays.asList(tmp);
+        mData = ArrayUtils.toObject(data);
     }
 
     public String[] getLabels(){
-        return mLabels.toArray(new String[mLabels.size()]);
+        return mLabels;
     }
     public int[] getLabelsData(){
-        Integer[] tmp = mLabelsData.toArray(new Integer[mLabelsData.size()]);
-        return ArrayUtils.toPrimitive(tmp);
+        return ArrayUtils.toPrimitive(mLabelsData);
     }
     public float[] getData(){
-        Float[] tmp = mData.toArray(new Float[mData.size()]);
-        return ArrayUtils.toPrimitive(tmp);
+        return ArrayUtils.toPrimitive(mData);
     }
 
     public int getNumOfData(){
