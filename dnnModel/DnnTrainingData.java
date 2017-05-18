@@ -17,9 +17,9 @@ public class DnnTrainingData implements Serializable {
     Integer mNumOfData;
     Integer mSizeOfData;
     Integer mNumOfLabels;
-    private List<String> mLabels;
-    private List<Integer> mLabelsData;
-    private List<Float> mData;
+    private ArrayList<String> mLabels;
+    private ArrayList<Integer> mLabelsData;
+    private ArrayList<Float> mData;
 
     public DnnTrainingData(int numOfLabels, int numOfData, int sizeOfData){
         mNumOfData = numOfData;
@@ -31,15 +31,15 @@ public class DnnTrainingData implements Serializable {
     }
 
     protected void setLabels(String[] labels){
-        mLabels = Arrays.asList(labels);
+        mLabels = (ArrayList<String>) Arrays.asList(labels);
     }
     protected void setLabelsData(int[] labelsData){
         Integer[] tmp = ArrayUtils.toObject(labelsData);
-        mLabelsData = Arrays.asList(tmp);
+        mLabelsData = (ArrayList<Integer>) Arrays.asList(tmp);
     }
     protected void setData(float[] data){
         Float[] tmp = ArrayUtils.toObject(data);
-        mData = Arrays.asList(tmp);
+        mData = (ArrayList<Float>) Arrays.asList(tmp);
     }
 
     public String[] getLabels(){
