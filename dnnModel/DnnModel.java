@@ -54,16 +54,8 @@ public class DnnModel implements Serializable {
 		int numOfData = mTrainingData.getNumOfData();
 		int dataSize = mTrainingData.getSizeOfData();
 		int numOfLabels = mTrainingData.getNumOfLabels();
-		float[] data = new float[numOfData*dataSize];
-		int[] labels = new int[numOfData];
-		float[] line;
-		for(int i = 0; i<numOfData; i++){
-			labels[i] = mTrainingData.getIndexLabelData(i);
-			line = mTrainingData.getIndexData(i);
-			for(int j=0; j<dataSize; j++){
-				data[i*dataSize + j] = line[j];
-			}
-		}
+		float[] data = mTrainingData.getData();
+		int[] labels = mTrainingData.getLabelsData();
 		jniSetTrainingData(data,labels,numOfData,dataSize,numOfLabels);
 	}
 	public DnnWeightsData getWeightsData(){
@@ -110,24 +102,10 @@ public class DnnModel implements Serializable {
 		mTrainingData = new DnnTrainingData(numOfLabels, numOfData, sizeOfData);
 	}
 	//@Keep
-	private synchronized void setIndexTrainingData(int index, int label, float[] data){
-		mTrainingData.setIndexLabelData(index, label);
-		mTrainingData.setIndexData(index, data);
+	private synchronized void setTrainingData(int[] labels, float[] data){
+		mTrainingData.setLabelsData(labels);
+		mTrainingData.setData(data);
 	}
-	//@Keep
-	private synchronized int getTrainingDataSize(){
-		return mTrainingData.getNumOfData();
-	}
-	//@Keep
-	private synchronized float[] getIndexTrainingData(int index){
-		return mTrainingData.getIndexData(index);
-	}
-	//@Keep
-	private synchronized int getIndexTrainingLabelData(int index){
-		return mTrainingData.getIndexLabelData(index);
-	}
-
-
 
 	// Java Native Interface methods ===============================================================
 	private native byte[] jniCreateModel();

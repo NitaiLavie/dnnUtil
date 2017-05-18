@@ -2,100 +2,56 @@ package dnnUtil.dnnModel;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
+import org.apache.commons.lang3.ArrayUtils;
 
 /**
  * Created by nitai on 15/04/17.
  */
 
 public class DnnTrainingData implements Serializable {
-    static final long serialVersionUID = 1L;
+    static final long serialVersionUID = 2L;
 
-    //TODO: changel primitie types if we want to send this object as serialized
-    private HashMap<Integer, String> mLabels;
     Integer mNumOfData;
     Integer mSizeOfData;
     Integer mNumOfLabels;
-    private ArrayList<Integer> mLabelsData;
-    private ArrayList<ArrayList<Float>> mData;
+    private List<String> mLabels;
+    private List<Integer> mLabelsData;
+    private List<Float> mData;
 
     public DnnTrainingData(int numOfLabels, int numOfData, int sizeOfData){
         mNumOfData = numOfData;
         mSizeOfData = sizeOfData;
         mNumOfLabels = numOfLabels;
-        mLabels = new HashMap<>();
+        mLabels = new ArrayList<>();
         mLabelsData = new ArrayList<>(); // label_t
         mData = new ArrayList<>(); // vec_t
     }
 
     protected void setLabels(String[] labels){
-        for(int i=0; i< labels.length; i++){
-            mLabels.put(i,labels[i]);
-        }
+        mLabels = Arrays.asList(labels);
     }
     protected void setLabelsData(int[] labelsData){
-        for(int i=0; i< labelsData.length; i++){
-            mLabelsData.add(labelsData[i]);
-        }
+        Integer[] tmp = ArrayUtils.toObject(labelsData);
+        mLabelsData = Arrays.asList(tmp);
     }
-    protected void setData(float[][] data){
-        for(int i = 0; i<data.length; i++){
-            mData.add(new ArrayList<Float>());
-            for(int j = 0; j < data[i].length; j++){
-                mData.get(i).add(data[i][j]);
-            }
-        }
+    protected void setData(float[] data){
+        Float[] tmp = ArrayUtils.toObject(data);
+        mData = Arrays.asList(tmp);
     }
 
     public String[] getLabels(){
-        String[] labels = new String[mLabels.keySet().size()];
-        for(int i=0; i< labels.length; i++){
-            labels[i] = mLabels.get(i);
-        }
-        return labels;
+        return mLabels.toArray(new String[mLabels.size()]);
     }
     public int[] getLabelsData(){
-        int[] labelsData = new int[mLabelsData.size()];
-        for(int i=0; i< labelsData.length; i++){
-            labelsData[i] = mLabelsData.get(i);
-        }
-        return labelsData;
+        Integer[] tmp = mLabelsData.toArray(new Integer[mLabelsData.size()]);
+        return ArrayUtils.toPrimitive(tmp);
     }
-    public float[][] getData(){
-        float[][] data = new float[mData.size()][mData.get(0).size()];
-        for(int i = 0; i<data.length; i++){
-            for(int j = 0; j < data[i].length; j++){
-                data[i][j] = mData.get(i).get(j);
-            }
-        }
-        return data;
-    }
-
-    protected void setIndexLabel(int index, String label){
-        mLabels.put(index, label);
-    }
-    protected void setIndexLabelData(int index, int labelData){
-        mLabelsData.add(index, labelData);
-    }
-    protected void setIndexData(int index, float[] data){
-        mData.add(index, new ArrayList<Float>());
-        for(int j = 0; j < data.length; j++){
-            mData.get(index).add(data[j]);
-        }
-    }
-
-    public String getIndexLabel(int index){
-        return mLabels.get(index);
-    }
-    public int getIndexLabelData(int index){
-        return mLabelsData.get(index);
-    }
-    public float[] getIndexData(int index){
-        float[] data = new float[mData.get(index).size()];
-        for(int j = 0; j < data.length; j++){
-            data[j] = mData.get(index).get(j);
-        }
-        return data;
+    public float[] getData(){
+        Float[] tmp = mData.toArray(new Float[mData.size()]);
+        return ArrayUtils.toPrimitive(tmp);
     }
 
     public int getNumOfData(){
