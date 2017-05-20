@@ -49,7 +49,7 @@ public class DnnTrainingData implements Serializable {
         return labels;
     }
     public float[] getData(){
-        float[] data = new float[mLabelsData.length];
+        float[] data = new float[mData.length];
         for(int i=0; i<mData.length; i++){
             data[i] = mData[i];
         }
