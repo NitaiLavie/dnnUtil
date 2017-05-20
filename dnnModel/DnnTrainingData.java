@@ -1,11 +1,6 @@
 package dnnUtil.dnnModel;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import org.apache.commons.lang3.ArrayUtils;
 
 /**
  * Created by nitai on 15/04/17.
@@ -31,20 +26,34 @@ public class DnnTrainingData implements Serializable {
         mLabels = labels;
     }
     protected void setLabelsData(int[] labelsData){
-        mLabelsData = ArrayUtils.toObject(labelsData);
+        mLabelsData = new Integer[labelsData.length];
+        for(int i=0; i<labelsData.length; i++){
+            mLabelsData[i] = labelsData[i];
+        }
     }
     protected void setData(float[] data){
-        mData = ArrayUtils.toObject(data);
+        mData = new Float[data.length];
+        for(int i=0; i<data.length; i++){
+            mData[i] = data[i];
+        }
     }
 
     public String[] getLabels(){
         return mLabels;
     }
     public int[] getLabelsData(){
-        return ArrayUtils.toPrimitive(mLabelsData);
+        int[] labels = new int[mLabelsData.length];
+        for(int i=0; i<mLabelsData.length; i++){
+            labels[i] = mLabelsData[i];
+        }
+        return labels;
     }
     public float[] getData(){
-        return ArrayUtils.toPrimitive(mData);
+        float[] data = new float[mLabelsData.length];
+        for(int i=0; i<mData.length; i++){
+            data[i] = mData[i];
+        }
+        return data;
     }
 
     public int getNumOfData(){

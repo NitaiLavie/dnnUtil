@@ -11,6 +11,7 @@ public class DnnModel implements Serializable {
 	}
 
 	// DnnModel members ============================================================================
+	private int mModelVersion;
 	private DnnModelDescriptor mModelDescriptor;
 	private DnnTrainingData mTrainingData;
 	private DnnWeightsData mWeightsData;
@@ -19,11 +20,13 @@ public class DnnModel implements Serializable {
 
 	// DnnModel constructors =======================================================================
 	public DnnModel(DnnModelParameters modelParameters){
+		mModelVersion = 0;
 		mNumberOfTrainingObjects = loadTrainingData();
 		createModel(modelParameters);
 	}
 
-	public DnnModel(DnnModelDescriptor modelDescriptor){
+	public DnnModel(DnnModelDescriptor modelDescriptor, int modelVersion){
+		mModelVersion = modelVersion;
 		mModelDescriptor = modelDescriptor;
 		loadModel(mModelDescriptor);
 	}
@@ -31,7 +34,7 @@ public class DnnModel implements Serializable {
 	// DnnModel Methods ============================================================================
 	private void createModel(DnnModelParameters modelParameters){
 		byte[] binaryData = jniCreateModel();
-		mModelDescriptor = new DnnModelDescriptor(binaryData);
+		mModelDescriptor = new DnnModelDescriptor(binaryData, mModelVersion);
 
 	}
 	private void loadModel(DnnModelDescriptor modelDescriptor){
@@ -63,8 +66,16 @@ public class DnnModel implements Serializable {
 		return mWeightsData;
 	}
 	public void setWeightsData(DnnWeightsData weightsData){
+		setWeightsData(weightsData, mModelVersion+1);
+	}
+	public void setWeightsData(DnnWeightsData weightsData, int modelVersion){
+		mModelVersion = modelVersion;
 		mWeightsData = weightsData;
-		jniSetWeightsData();
+		byte[] binaryData = jniSetWeightsData();
+		mModelDescriptor = new DnnModelDescriptor(binaryData, mModelVersion);
+	}
+	public int getModelVersio(){
+		return mModelVersion;
 	}
 	public DnnModelDescriptor getModelDescriptor(){
 		return mModelDescriptor;
@@ -79,30 +90,30 @@ public class DnnModel implements Serializable {
 
 	// Java Native Interface callback methods ======================================================
 	//@Keep
-	private synchronized void initWeightsData(){
+	private void initWeightsData_callback(){
 		mWeightsData = new DnnWeightsData();
 	}
 	//@Keep
-	private synchronized void setLayerWeights(float[] weights, int layerIndex){
+	private void setLayerWeights_callback(float[] weights, int layerIndex){
 		mWeightsData.setLayerWeights(weights, layerIndex);
 	}
 	//@Keep
-	private synchronized void setLayerBiases(float[] biases, int layerIndex){
+	private void setLayerBiases_callback(float[] biases, int layerIndex){
 		mWeightsData.setLayerBiases(biases, layerIndex);
 	}
 	//@Keep
-	private synchronized void getLayerWeightsData(int layerIndex){
+	private void getLayerWeightsData_callback(int layerIndex){
 		float[] weights = mWeightsData.getLayerWeights(layerIndex);
 		float[] biases =  mWeightsData.getLayerBiases(layerIndex);
 		jniSetLayerWeightsData(layerIndex, weights, biases);
 	}
 
 	//@Keep
-	private synchronized void initTrainingData(int numOfLabels, int numOfData, int sizeOfData){
+	private void initTrainingData_callback(int numOfLabels, int numOfData, int sizeOfData){
 		mTrainingData = new DnnTrainingData(numOfLabels, numOfData, sizeOfData);
 	}
 	//@Keep
-	private synchronized void setTrainingData(int[] labels, float[] data){
+	private void setTrainingData_callback(int[] labels, float[] data){
 		mTrainingData.setLabelsData(labels);
 		mTrainingData.setData(data);
 	}
@@ -119,7 +130,7 @@ public class DnnModel implements Serializable {
 	private native void jniSetTrainingData(float[] data, int[] labels, int numOfData, int dataSize, int numOfLabels);
 
 	private native void jniGetWeightsData();
-	private native void jniSetWeightsData();
+	private native byte[] jniSetWeightsData();
 	private native void jniSetLayerWeightsData(int layer, float[] weights, float[] biases);
 
 }
