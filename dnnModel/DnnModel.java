@@ -74,7 +74,7 @@ public class DnnModel implements Serializable {
 		byte[] binaryData = jniSetWeightsData();
 		mModelDescriptor = new DnnModelDescriptor(binaryData, mModelVersion);
 	}
-	public int getModelVersios(){
+	public int getModelVersion(){
 		return mModelVersion;
 	}
 	public DnnModelDescriptor getModelDescriptor(){
