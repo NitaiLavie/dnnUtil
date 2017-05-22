@@ -5,22 +5,21 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class DnnStatistics implements Serializable {
-	static final long serialVersionUID = 3L;
+	static final long serialVersionUID = 4L;
 
 	private Map<String,String> mStats;
 	private String mClientName;
-	private Long mStartTrainingTime; // in milliseconds since epoch time
-	private Long mFinishTrainingTime; // in milliseconds since epoch time
+	private Long mStartTrainingTime = (long)0; // in milliseconds since epoch time
+	private Long mFinishTrainingTime = (long)0; // in milliseconds since epoch time
 	private String mDeviceName;
 	private String mMemoryFootprint;
-	private Integer mNumberOfTrainedEpochs;
+	private Integer mNumberOfTrainedEpochs = 0;
 	private String mSuccesRate;
-	private Integer mModelNumber;
-	private Integer mServerInteractionCount;
+	private Integer mModelNumber = 0;
+	private Integer mServerInteractionCount = 0;
 	
 	public DnnStatistics(){
 		mStats = new LinkedHashMap<>();
-		
 	}
 	public String getClientName() {
 		return mClientName;
