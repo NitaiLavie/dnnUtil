@@ -5,18 +5,18 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class DnnStatistics implements Serializable {
-	static final long serialVersionUID = 1L;
+	static final long serialVersionUID = 3L;
 
 	private Map<String,String> mStats;
 	private String mClientName;
-	private String mStartTrainingTime;
-	private String mFinishTrainingTime;
+	private Long mStartTrainingTime; // in milliseconds since epoch time
+	private Long mFinishTrainingTime; // in milliseconds since epoch time
 	private String mDeviceName;
 	private String mMemoryFootprint;
-	private String mNumberOfTrainedEpochs;
+	private Integer mNumberOfTrainedEpochs;
 	private String mSuccesRate;
-	private String mModelNumber;
-	private int mServerInteractionCount;
+	private Integer mModelNumber;
+	private Integer mServerInteractionCount;
 	
 	public DnnStatistics(){
 		mStats = new LinkedHashMap<>();
@@ -28,16 +28,16 @@ public class DnnStatistics implements Serializable {
 	public void setClientName(String mClientName) {
 		this.mClientName = mClientName;
 	}
-	public String getStartTrainingTime() {
+	public Long getStartTrainingTime() {
 		return mStartTrainingTime;
 	}
-	public void setStartTrainingTime(String mStartTrainingTime) {
+	public void setStartTrainingTime(Long mStartTrainingTime) {
 		this.mStartTrainingTime = mStartTrainingTime;
 	}
-	public String getFinishTrainingTime() {
+	public Long getFinishTrainingTime() {
 		return mFinishTrainingTime;
 	}
-	public void setFinishTrainingTime(String mFinishTrainingTime) {
+	public void setFinishTrainingTime(Long mFinishTrainingTime) {
 		this.mFinishTrainingTime = mFinishTrainingTime;
 	}
 	public String getDeviceName() {
@@ -52,10 +52,10 @@ public class DnnStatistics implements Serializable {
 	public void setMemoryFootprint(String mMemoryFootprint) {
 		this.mMemoryFootprint = mMemoryFootprint;
 	}
-	public String getNumberOfTrainedEpochs() {
+	public Integer getNumberOfTrainedEpochs() {
 		return mNumberOfTrainedEpochs;
 	}
-	public void setNumberOfTrainedEpochs(String mNumberOfTrainedEpochs) {
+	public void setNumberOfTrainedEpochs(Integer mNumberOfTrainedEpochs) {
 		this.mNumberOfTrainedEpochs = mNumberOfTrainedEpochs;
 	}
 	public String getSuccesRate() {
@@ -64,10 +64,10 @@ public class DnnStatistics implements Serializable {
 	public void setSuccesRate(String mSuccesRate) {
 		this.mSuccesRate = mSuccesRate;
 	}
-	public String getModelNumber() {
+	public Integer getModelNumber() {
 		return mModelNumber;
 	}
-	public void setModelNumber(String mModelNumber) {
+	public void setModelNumber(Integer mModelNumber) {
 		this.mModelNumber = mModelNumber;
 	}
 	public int getServerInteractionCount() {
@@ -97,10 +97,10 @@ public class DnnStatistics implements Serializable {
 	private void updateStatsMap(){
 		mStats.put("Client Name", mClientName);
 		mStats.put("Device Name", mDeviceName);
-		mStats.put("Model Number", mModelNumber);
-		mStats.put("Start Training Time", mStartTrainingTime);
-		mStats.put("Finish Training Time", mFinishTrainingTime);
-		mStats.put("Number Of Trained Epochs",mNumberOfTrainedEpochs);
+		mStats.put("Model Number", mModelNumber.toString());
+		mStats.put("Start Training Time", mStartTrainingTime.toString());
+		mStats.put("Finish Training Time", mFinishTrainingTime.toString());
+		mStats.put("Number Of Trained Epochs",mNumberOfTrainedEpochs.toString());
 		mStats.put("Memory Footprint",mMemoryFootprint);
 		mStats.put("Succes Rate", mSuccesRate);
 		mStats.put("Server Interaction Count", new Integer(mServerInteractionCount).toString());		
