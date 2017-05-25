@@ -75,7 +75,28 @@ public class DnnStatistics implements Serializable {
 	public void setServerInteractionCount(int mServerInteractionCount) {
 		this.mServerInteractionCount = mServerInteractionCount;
 	}
-
+	public String getStatisticsCSVHeader(){
+		String csvHeader ="";
+		for (Map.Entry<String, String> statKey: mStats.entrySet()) {
+			csvHeader += statKey.getKey() + ",";
+		}
+		csvHeader += "\n";
+		return csvHeader;
+	}
+	
+	public String getStatisticsInCSV(){
+		updateStatsMap();
+		String statsCSV="";
+		for (Map.Entry<String, String> statKey: mStats.entrySet()) {
+			if(statKey.getValue() != null){
+				statsCSV += statKey.getValue() + ",";
+			}else{
+				statsCSV += ",";
+			}
+		}
+		statsCSV += "\n";
+		return statsCSV;
+	}	
 	public String getStatistics(){
 		updateStatsMap();
 		String stats ="";
@@ -94,15 +115,15 @@ public class DnnStatistics implements Serializable {
 		this.mStats = mStats;
 	}
 	private void updateStatsMap(){
-		mStats.put("Client Name", mClientName);
-		mStats.put("Device Name", mDeviceName);
-		mStats.put("Model Number", mModelNumber.toString());
-		mStats.put("Start Training Time", mStartTrainingTime.toString());
-		mStats.put("Finish Training Time", mFinishTrainingTime.toString());
-		mStats.put("Number Of Trained Epochs",mNumberOfTrainedEpochs.toString());
-		mStats.put("Memory Footprint",mMemoryFootprint);
-		mStats.put("Succes Rate", mSuccesRate);
-		mStats.put("Server Interaction Count", new Integer(mServerInteractionCount).toString());		
+		mStats.put("Client_Name", mClientName);
+		mStats.put("Device_Name", mDeviceName);
+		mStats.put("Model_Number", mModelNumber.toString());
+		mStats.put("Start_Training_Time", mStartTrainingTime.toString());
+		mStats.put("Finish_Training_Time", mFinishTrainingTime.toString());
+		mStats.put("Number_Of_Trained_Epochs",mNumberOfTrainedEpochs.toString());
+		mStats.put("Memory_Footprint",mMemoryFootprint);
+		mStats.put("Succes_Rate", mSuccesRate);
+		mStats.put("Server_Interaction_Count", new Integer(mServerInteractionCount).toString());		
 		
 	}
 	
