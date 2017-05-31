@@ -1,19 +1,19 @@
 package dnnUtil.dnnMessage;
 
-import dnnUtil.dnnModel.DnnIndex;
+import dnnUtil.dnnModel.DnnBundle;
 
 public class DnnTrainMessage extends DnnMessage {
 	private static final long serialVersionUID = 1L;
 	
-	private DnnIndex mMessageContent;
+	private DnnBundle mMessageContent;
 
-	public DnnTrainMessage(DnnIndex trainingIndex) {
-		mMessageContent =trainingIndex;
+	public DnnTrainMessage(DnnBundle trainingPackage) {
+		mMessageContent =trainingPackage;
 		mMessageType = MessageType.TRAIN;
 	}
 	
 	@Override
-	public DnnIndex getContent() {
+	public DnnBundle getContent() {
 		return mMessageContent;
 	}
 
