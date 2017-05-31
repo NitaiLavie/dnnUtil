@@ -9,7 +9,7 @@ import java.util.HashMap;
  */
 
 public class DnnWeightsData implements Serializable {
-    static final long serialVersionUID = 2L;
+    static final long serialVersionUID = 3L;
 
     public static final Integer WEIGHT  = 0;
     public static final Integer BIAS    = 1;
@@ -38,8 +38,8 @@ public class DnnWeightsData implements Serializable {
     		}
     		updatedWeightsData.setLayerWeights(updatedWeights, layerIndex);
     		
-    		float[] biases = getLayerWeights(layerIndex);
-    		float[] newBiases = addedWeightsData.getLayerWeights(layerIndex);
+    		float[] biases = getLayerBiases(layerIndex);
+    		float[] newBiases = addedWeightsData.getLayerBiases(layerIndex);
     		float[] updatedBiases= new float[biases.length];
 
     		for(int biasIndex = 0; biasIndex < biases.length; biasIndex ++){

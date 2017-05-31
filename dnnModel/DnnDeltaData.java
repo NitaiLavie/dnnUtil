@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class DnnDeltaData extends DnnWeightsData{
-    static final long serialVersionUID = 1L;
+    static final long serialVersionUID = 2L;
 
     public DnnDeltaData(DnnWeightsData newWeights, DnnWeightsData oldWeights){
         mWeightsData = newWeights.mWeightsData;
@@ -24,8 +24,8 @@ public class DnnDeltaData extends DnnWeightsData{
             }
             updatedWeightsData.setLayerWeights(updatedWeights, layerIndex);
 
-            float[] biases = getLayerWeights(layerIndex);
-            float[] newBiases = subtractedWeightsData.getLayerWeights(layerIndex);
+            float[] biases = getLayerBiases(layerIndex);
+            float[] newBiases = subtractedWeightsData.getLayerBiases(layerIndex);
             float[] updatedBiases= new float[biases.length];
 
             for(int biasIndex = 0; biasIndex < biases.length; biasIndex ++){
