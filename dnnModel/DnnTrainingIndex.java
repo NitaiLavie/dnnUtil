@@ -2,9 +2,9 @@ package dnnUtil.dnnModel;
 
 public class DnnTrainingIndex {
 	private Integer mDataSize;		
-	private String mDataType;		//either TRAIN, VALIDATE OR TEST 
+	private String mDataType;		// either train, validate OR test
 	private Integer mDataIndex;
-	private String mDataSet;		//MNIST or CIFAR10
+	private String mDataSet;		// mnist OR cifar10
 	
 	public DnnTrainingIndex(Integer dataSize, String dataType, Integer dataIndex, String dataSet) {
 		setDataSize(dataSize);

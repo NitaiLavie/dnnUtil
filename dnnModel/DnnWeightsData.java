@@ -9,18 +9,18 @@ import java.util.HashMap;
  */
 
 public class DnnWeightsData implements Serializable {
-    static final long serialVersionUID = 1L;
+    static final long serialVersionUID = 2L;
 
     public static final Integer WEIGHT  = 0;
     public static final Integer BIAS    = 1;
 
-    private class W_Vec extends ArrayList<Float>{
+    protected class W_Vec extends ArrayList<Float>{
         static final long serialVersionUID = 1L;
     }
-    private class Layer_Weights extends HashMap<Integer,W_Vec>{
+    protected class Layer_Weights extends HashMap<Integer,W_Vec>{
         static final long serialVersionUID = 1L;
     }
-    private ArrayList<Layer_Weights> mWeightsData;
+    protected ArrayList<Layer_Weights> mWeightsData;
 
     public DnnWeightsData(){
         mWeightsData = new ArrayList<>();

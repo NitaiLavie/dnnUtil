@@ -21,8 +21,8 @@ public class DnnModel implements Serializable {
 	// DnnModel constructors =======================================================================
 	public DnnModel(DnnModelParameters modelParameters){
 		mModelVersion = 0;
-		mNumberOfTrainingObjects = loadTrainingData();
-		createModel(modelParameters);
+		mNumberOfTrainingObjects = 50000; //Todo: changes this, hard coding numbers is a bad practice
+		createModel(modelParameters); // maybe change this to get parameters?
 	}
 
 	public DnnModel(DnnModelDescriptor modelDescriptor, int modelVersion){
@@ -35,17 +35,20 @@ public class DnnModel implements Serializable {
 	private void createModel(DnnModelParameters modelParameters){
 		byte[] binaryData = jniCreateModel();
 		mModelDescriptor = new DnnModelDescriptor(binaryData, mModelVersion);
-
+		jniGetWeightsData();
 	}
 	private void loadModel(DnnModelDescriptor modelDescriptor){
 		jniLoadModel(mModelDescriptor.getBinaryData());
+		jniGetWeightsData();
 	}
 	public void trainModel(){
-		byte[] binaryData = jniTrainModel();
+		jniTrainModel();
+		//byte[] binaryData = jniTrainModel();
 		//mModelDescriptor.setBinaryData(binaryData);
 	}
-	public int loadTrainingData(){
-		return jniLoadTrainingData();
+	public int loadTrainingData(String dataFile, String labelsFile, String dataType){
+		mNumberOfTrainingObjects = jniLoadTrainingData(dataFile, labelsFile, dataType);
+		return mNumberOfTrainingObjects;
 	}
 	public DnnTrainingData getTrainingData(DnnTrainingDescriptor trainingDescriptor){
 		jniGetTrainingData(trainingDescriptor.getBeginning(), trainingDescriptor.getEnd());
@@ -54,12 +57,13 @@ public class DnnModel implements Serializable {
 	public void setTrainingData(DnnTrainingData trainingData){
 		mTrainingData = trainingData;
 		mNumberOfTrainingObjects = mTrainingData.getNumOfData();
-		int numOfData = mTrainingData.getNumOfData();
-		int dataSize = mTrainingData.getSizeOfData();
-		int numOfLabels = mTrainingData.getNumOfLabels();
-		float[] data = mTrainingData.getData();
-		int[] labels = mTrainingData.getLabelsData();
-		jniSetTrainingData(data,labels,numOfData,dataSize,numOfLabels);
+		jniSetTrainingData(
+				mTrainingData.getData(),
+				mTrainingData.getLabelsData(),
+				mTrainingData.getNumOfData(),
+				mTrainingData.getSizeOfData(),
+				mTrainingData.getNumOfLabels()
+		);
 	}
 	public DnnWeightsData getWeightsData(){
 		jniGetWeightsData();
@@ -73,6 +77,14 @@ public class DnnModel implements Serializable {
 		mWeightsData = weightsData;
 		byte[] binaryData = jniSetWeightsData();
 		mModelDescriptor = new DnnModelDescriptor(binaryData, mModelVersion);
+	}
+	public DnnDeltaData getDeltaData(){
+		DnnWeightsData oldWeights = mWeightsData;
+		jniGetWeightsData();
+		return new DnnDeltaData(mWeightsData, oldWeights);
+	}
+	public void setDeltaData(DnnDeltaData deltaData){
+		setWeightsData(mWeightsData.addWeights(deltaData), mModelVersion+1);
 	}
 	public int getModelVersion(){
 		return mModelVersion;
@@ -125,7 +137,7 @@ public class DnnModel implements Serializable {
 	private native void jniLoadModel(byte[] binaryData);
 	private native byte[] jniTrainModel();
 
-	private native int jniLoadTrainingData();
+	private native int jniLoadTrainingData(String dataFile, String labelsFile, String dataType);
 	private native void jniGetTrainingData(int startIndex, int endIndex);
 	private native void jniSetTrainingData(float[] data, int[] labels, int numOfData, int dataSize, int numOfLabels);
 
