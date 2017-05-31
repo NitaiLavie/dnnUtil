@@ -1,19 +1,19 @@
 package dnnUtil.dnnMessage;
 
-import dnnUtil.dnnModel.DnnModelDescriptor;
+import dnnUtil.dnnModel.DnnBundle;
 
 public class DnnValidationMessage extends DnnMessage {
 	static final long serialVersionUID = 1L;
-	private DnnModelDescriptor mMessageContent;
+	private DnnBundle mMessageContent;
 	
-	public DnnValidationMessage(String senderName, DnnModelDescriptor messageContent){
+	public DnnValidationMessage(String senderName, DnnBundle messageContent){
 		mMessageType = MessageType.MODELVALIDATION;
 		mMessageContent = messageContent;
 		mSenderName = senderName;
 	}
 	
 	@Override
-	public DnnModelDescriptor getContent() {
+	public DnnBundle getContent() {
 		return mMessageContent;
 	}
 
