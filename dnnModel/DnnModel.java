@@ -46,6 +46,10 @@ public class DnnModel implements Serializable {
 		//byte[] binaryData = jniTrainModel();
 		//mModelDescriptor.setBinaryData(binaryData);
 	}
+	public DnnValidationResult validateModel(){
+		float resultAccuracy = jniValidateModel();
+		return new DnnValidationResult(mModelVersion, resultAccuracy);
+	}
 	public int loadTrainingData(String dataFile, String labelsFile, String dataSet){
 		mNumberOfTrainingObjects = jniLoadTrainingData(dataFile, labelsFile, dataSet);
 		return mNumberOfTrainingObjects;
@@ -135,7 +139,8 @@ public class DnnModel implements Serializable {
 	private native byte[] jniUpdateModel();
 
 	private native void jniLoadModel(byte[] binaryData);
-	private native byte[] jniTrainModel();
+	private native void jniTrainModel();
+	private native float jniValidateModel();
 
 	private native int jniLoadTrainingData(String dataFile, String labelsFile, String dataSet);
 	private native void jniGetTrainingData(int startIndex, int endIndex);
