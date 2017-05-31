@@ -7,18 +7,18 @@ package dnnUtil.dnnMessage;
 public class DnnReadyMessage extends DnnMessage{
 
     /**
-     *
+     * Signals the Dnn server that the client is ready with the attached model version
      */
-    private static final long serialVersionUID = 1L;
-    private String mMessageContent;
+    private static final long serialVersionUID = 2L;
+    private Integer mMessageContent;
 
-    public DnnReadyMessage(String senderName, String messageContent){
-        mMessageContent = messageContent;
+    public DnnReadyMessage(String senderName, Integer messageContent){
+        mMessageContent = messageContent; // model version
         mMessageType = MessageType.READY;
         mSenderName = senderName;
     }
     @Override
-    public String getContent() {
+    public Integer getContent() {
 
         return mMessageContent;
     }
