@@ -3,10 +3,10 @@ package dnnUtil.dnnMessage;
 import java.io.Serializable;
 
 public abstract class DnnMessage implements Serializable {
-	static final long serialVersionUID = 2L;
+	static final long serialVersionUID = 3L;
 	// defines the message type
 	public static enum MessageType{
-		MODEL, WEIGHTS, TEST, STRING, STATISTICS, READY, HELLO, TRAININGDATA 
+		MODEL, WEIGHTS, TEST, STRING, STATISTICS, READY, HELLO, TRAININGDATA, INDEX, DELTA 
 	}
 	
 	protected String mSenderName;
