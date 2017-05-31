@@ -7,9 +7,10 @@ public class DnnDeltaMessage extends DnnMessage {
 	
 	private DnnDeltaData mMessageContent;
 	
-	public DnnDeltaMessage(DnnDeltaData delta) {
+	public DnnDeltaMessage(String senderName, DnnDeltaData delta) {
 		mMessageContent = delta;
 		mMessageType = MessageType.DELTA;
+		mSenderName = senderName;
 	}
 	@Override
 	public DnnDeltaData getContent() {
