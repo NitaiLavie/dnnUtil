@@ -1,6 +1,10 @@
 package dnnUtil.dnnModel;
 
-public class DnnIndex {
+import java.io.Serializable;
+
+public class DnnIndex implements Serializable{
+	private static final long serialVersionUID = 1L;
+
 	private Integer mDataSize;		
 	private String mDataType;		// either train, validate OR test
 	private Integer mDataIndex;
