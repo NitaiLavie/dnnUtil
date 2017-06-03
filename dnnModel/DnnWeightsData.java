@@ -9,7 +9,7 @@ import java.util.HashMap;
  */
 
 public class DnnWeightsData implements Serializable {
-    static final long serialVersionUID = 3L;
+    static final long serialVersionUID = 4L;
 
     public static final Integer WEIGHT  = 0;
     public static final Integer BIAS    = 1;
@@ -20,10 +20,10 @@ public class DnnWeightsData implements Serializable {
     protected class Layer_Weights extends HashMap<Integer,W_Vec>{
         static final long serialVersionUID = 1L;
     }
-    protected ArrayList<Layer_Weights> mWeightsData;
+    protected HashMap<Integer,Layer_Weights> mWeightsData;
 
     public DnnWeightsData(){
-        mWeightsData = new ArrayList<>();
+        mWeightsData = new HashMap<>();
     }
     
     public DnnWeightsData addWeights(DnnWeightsData addedWeightsData){
@@ -71,14 +71,13 @@ public class DnnWeightsData implements Serializable {
             vec.add(weights[i]);
         }
 
-        Layer_Weights layer;
-        try{
-            layer = mWeightsData.get(layerIndex);
+        Layer_Weights layer = mWeightsData.get(layerIndex);
+        if(layer != null) {
             layer.put(WEIGHT, vec);
-        } catch (IndexOutOfBoundsException e){
+        } else{
             layer = new Layer_Weights();
             layer.put(WEIGHT, vec);
-            mWeightsData.add(layerIndex,layer);
+            mWeightsData.put(layerIndex,layer);
         }
     }
     public void setLayerBiases(float[] biases, int layerIndex){
@@ -87,26 +86,30 @@ public class DnnWeightsData implements Serializable {
             vec.add(biases[i]);
         }
 
-        Layer_Weights layer;
-        try{
-            layer = mWeightsData.get(layerIndex);
+        Layer_Weights layer = mWeightsData.get(layerIndex);
+        if(layer != null){
             layer.put(BIAS, vec);
-        } catch (IndexOutOfBoundsException e){
+        } else {
             layer = new Layer_Weights();
             layer.put(BIAS, vec);
-            mWeightsData.add(layerIndex,layer);
+            mWeightsData.put(layerIndex,layer);
         }
     }
     public float[] getLayerWeights(int layerIndex){
         float[] layerWeights;
-        try{
-            Layer_Weights layer = mWeightsData.get(layerIndex);
+
+        Layer_Weights layer = mWeightsData.get(layerIndex);
+        if(layer != null){
             W_Vec vec = layer.get(WEIGHT);
-            layerWeights = new float[vec.size()];
-            for( int i = 0; i<layerWeights.length; i++){
-                layerWeights[i] = vec.get(i);
+            if(vec != null) {
+                layerWeights = new float[vec.size()];
+                for (int i = 0; i < layerWeights.length; i++) {
+                    layerWeights[i] = vec.get(i);
+                }
+            } else {
+                layerWeights = new float[0];
             }
-        } catch ( IndexOutOfBoundsException e ) {
+        } else {
             layerWeights = new float[0];
         }
 
@@ -114,14 +117,18 @@ public class DnnWeightsData implements Serializable {
     }
     public float[] getLayerBiases(int layerIndex){
         float[] layerBiases;
-        try{
-            Layer_Weights layer = mWeightsData.get(layerIndex);
+        Layer_Weights layer = mWeightsData.get(layerIndex);
+        if(layer != null){
             W_Vec vec = layer.get(BIAS);
-            layerBiases = new float[vec.size()];
-            for( int i = 0; i<layerBiases.length; i++){
-                layerBiases[i] = vec.get(i);
+            if(vec != null) {
+                layerBiases = new float[vec.size()];
+                for (int i = 0; i < layerBiases.length; i++) {
+                    layerBiases[i] = vec.get(i);
+                }
+            } else {
+                layerBiases = new float[0];
             }
-        } catch ( IndexOutOfBoundsException e ) {
+        } else {
             layerBiases = new float[0];
         }
 
