@@ -7,7 +7,7 @@ public class DnnValidationMessage extends DnnMessage {
 	private DnnBundle mMessageContent;
 	
 	public DnnValidationMessage(String senderName, DnnBundle messageContent){
-		mMessageType = MessageType.MODELVALIDATION;
+		mMessageType = MessageType.VALIDATE;
 		mMessageContent = messageContent;
 		mSenderName = senderName;
 	}

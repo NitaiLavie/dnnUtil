@@ -3,6 +3,8 @@ package dnnUtil.dnnModel;
 import java.io.Serializable;
 //import android.support.annotation.Keep;
 
+import dnnUtil.dnnStatistics.DnnValidationResult;
+
 public class DnnModel implements Serializable {
 	static final long serialVersionUID = 1L;
 
