@@ -1,6 +1,8 @@
 package dnnUtil.dnnModel;
 
 import java.io.Serializable;
+
+import dnnUtil.dnnStatistics.DnnValidationResult;
 //import android.support.annotation.Keep;
 
 public class DnnModel implements Serializable {
@@ -25,8 +27,8 @@ public class DnnModel implements Serializable {
 		createModel(modelParameters); // maybe change this to get parameters?
 	}
 
-	public DnnModel(DnnModelDescriptor modelDescriptor, int modelVersion){
-		mModelVersion = modelVersion;
+	public DnnModel(DnnModelDescriptor modelDescriptor){
+		mModelVersion = modelDescriptor.getModelVersion();
 		mModelDescriptor = modelDescriptor;
 		loadModel(mModelDescriptor);
 	}
