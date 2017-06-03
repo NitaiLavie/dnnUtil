@@ -14,7 +14,7 @@ public class DnnDeltaData extends DnnWeightsData{
 
     public DnnWeightsData subtractWeights(DnnWeightsData subtractedWeightsData){
         DnnWeightsData updatedWeightsData = new DnnWeightsData();
-        for(int layerIndex = 0; layerIndex < mWeightsData.size(); layerIndex++){
+        for(Integer layerIndex : mWeightsData.keySet()){
             float[] weights = getLayerWeights(layerIndex);
             float[] newWeights = subtractedWeightsData.getLayerWeights(layerIndex);
             float[] updatedWeights = new float[weights.length];

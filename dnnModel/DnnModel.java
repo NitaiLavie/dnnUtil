@@ -42,7 +42,7 @@ public class DnnModel implements Serializable {
 		jniGetWeightsData();
 	}
 	private void loadModel(DnnModelDescriptor modelDescriptor){
-		jniLoadModel(mModelDescriptor.getBinaryData());
+		jniLoadModel(modelDescriptor.getBinaryData());
 		jniGetWeightsData();
 	}
 	public void trainModel(){

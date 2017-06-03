@@ -28,7 +28,7 @@ public class DnnWeightsData implements Serializable {
     
     public DnnWeightsData addWeights(DnnWeightsData addedWeightsData){
     	DnnWeightsData updatedWeightsData = new DnnWeightsData();
-    	for(int layerIndex = 0; layerIndex < mWeightsData.size(); layerIndex++){
+    	for(Integer layerIndex : mWeightsData.keySet()){
     		float[] weights = getLayerWeights(layerIndex);
     		float[] newWeights = addedWeightsData.getLayerWeights(layerIndex);
     		float[] updatedWeights = new float[weights.length];
