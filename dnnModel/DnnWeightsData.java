@@ -3,6 +3,7 @@ package dnnUtil.dnnModel;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by nitai on 29/04/17.
@@ -131,8 +132,24 @@ public class DnnWeightsData implements Serializable {
         } else {
             layerBiases = new float[0];
         }
-
         return layerBiases;
     }
 
+    public DnnWeightsData deepcopy(){
+        DnnWeightsData weightsCopy = new DnnWeightsData();
+        for(Integer layerKey : this.mWeightsData.keySet()){
+            Layer_Weights layer = mWeightsData.get(layerKey);
+            Layer_Weights layerCopy = new Layer_Weights();
+            for(Integer vecKey : layer.keySet()){
+                W_Vec vec = layer.get(vecKey);
+                W_Vec vecCopy = new W_Vec();
+                for(int i = 0; i<vec.size(); i++){
+                    vecCopy.add(new Float(vec.get(i).floatValue()));
+                }
+                layerCopy.put(vecKey,vecCopy);
+            }
+            weightsCopy.mWeightsData.put(layerKey,layerCopy);
+        }
+        return weightsCopy;
+    }
 }

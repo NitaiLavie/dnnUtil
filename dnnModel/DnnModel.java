@@ -19,6 +19,7 @@ public class DnnModel implements Serializable {
 	private DnnModelDescriptor mModelDescriptor;
 	private DnnTrainingData mTrainingData;
 	private DnnWeightsData mWeightsData;
+    private DnnWeightsData mOldWeightsData;
 	private int mNumberOfTrainingObjects;
 	private int mNumberOfTestingObjects;
 
@@ -46,6 +47,7 @@ public class DnnModel implements Serializable {
 		jniGetWeightsData();
 	}
 	public void trainModel(){
+        mOldWeightsData = mWeightsData.deepcopy();
 		jniTrainModel();
 		//byte[] binaryData = jniTrainModel();
 		//mModelDescriptor.setBinaryData(binaryData);
@@ -87,9 +89,8 @@ public class DnnModel implements Serializable {
 		mModelDescriptor = new DnnModelDescriptor(binaryData, mModelVersion);
 	}
 	public DnnDeltaData getDeltaData(){
-		DnnWeightsData oldWeights = mWeightsData;
 		jniGetWeightsData();
-		return new DnnDeltaData(mWeightsData, oldWeights);
+		return new DnnDeltaData(mWeightsData, mOldWeightsData);
 	}
 	public void setDeltaData(DnnDeltaData deltaData){
 		setWeightsData(mWeightsData.addWeights(deltaData), mModelVersion+1);
