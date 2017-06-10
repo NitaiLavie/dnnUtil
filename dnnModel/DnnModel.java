@@ -1,6 +1,7 @@
 package dnnUtil.dnnModel;
 
 import java.io.Serializable;
+import java.util.concurrent.locks.ReentrantLock;
 
 import dnnUtil.dnnStatistics.DnnValidationResult;
 //import android.support.annotation.Keep;
@@ -37,34 +38,33 @@ public class DnnModel implements Serializable {
 	}
 
 	// DnnModel Methods ============================================================================
-	synchronized private void createModel(DnnModelParameters modelParameters){
+	private void createModel(DnnModelParameters modelParameters){
 		byte[] binaryData = jniCreateModel();
 		mModelDescriptor = new DnnModelDescriptor(binaryData, mModelVersion);
-		jniGetWeightsData();
 	}
-	synchronized private void loadModel(DnnModelDescriptor modelDescriptor){
+	private void loadModel(DnnModelDescriptor modelDescriptor){
 		jniLoadModel(modelDescriptor.getBinaryData());
 		jniGetWeightsData();
 	}
-	synchronized public void trainModel(){
+	public void trainModel(){
         mOldWeightsData = mWeightsData.deepcopy();
 		jniTrainModel();
 		//byte[] binaryData = jniTrainModel();
 		//mModelDescriptor.setBinaryData(binaryData);
 	}
-	synchronized public DnnValidationResult validateModel(){
+	public DnnValidationResult validateModel(){
 		float resultAccuracy = jniValidateModel();
 		return new DnnValidationResult(mModelVersion, resultAccuracy);
 	}
-	synchronized public int loadTrainingData(String dataFile, String labelsFile, String dataSet){
+	public int loadTrainingData(String dataFile, String labelsFile, String dataSet){
 		mNumberOfTrainingObjects = jniLoadTrainingData(dataFile, labelsFile, dataSet);
 		return mNumberOfTrainingObjects;
 	}
-	synchronized public DnnTrainingData getTrainingData(DnnTrainingDescriptor trainingDescriptor){
+	public DnnTrainingData getTrainingData(DnnTrainingDescriptor trainingDescriptor){
 		jniGetTrainingData(trainingDescriptor.getBeginning(), trainingDescriptor.getEnd());
 		return mTrainingData;
 	}
-	synchronized public void setTrainingData(DnnTrainingData trainingData){
+	public void setTrainingData(DnnTrainingData trainingData){
 		mTrainingData = trainingData;
 		mNumberOfTrainingObjects = mTrainingData.getNumOfData();
 		jniSetTrainingData(
@@ -75,77 +75,80 @@ public class DnnModel implements Serializable {
 				mTrainingData.getNumOfLabels()
 		);
 	}
-	synchronized public DnnWeightsData getWeightsData(){
+	public DnnWeightsData getWeightsData(){
 		jniGetWeightsData();
 		return mWeightsData;
 	}
-	synchronized public void setWeightsData(DnnWeightsData weightsData){
+	public void setWeightsData(DnnWeightsData weightsData){
 		setWeightsData(weightsData, mModelVersion+1);
 	}
-	synchronized public void setWeightsData(DnnWeightsData weightsData, int modelVersion){
+	public void setWeightsData(DnnWeightsData weightsData, int modelVersion){
 		mModelVersion = modelVersion;
 		mWeightsData = weightsData;
 		byte[] binaryData = jniSetWeightsData();
 		mModelDescriptor = new DnnModelDescriptor(binaryData, mModelVersion);
 	}
-	synchronized public DnnDeltaData getDeltaData(){
+	public DnnDeltaData getDeltaData(){
 		jniGetWeightsData();
-		return new DnnDeltaData(mWeightsData, mOldWeightsData);
+		return new DnnDeltaData(mModelVersion, mWeightsData, mOldWeightsData);
 	}
 	synchronized public void setDeltaData(DnnDeltaData deltaData){
+		// implementing Asynchronous Stochastic Gradient Descent with staleness scaling
+		float lambda = 1/((float)(1 + mModelVersion - deltaData.getModelVesrsion()));
+		deltaData.scaleWeights(lambda);
 		setWeightsData(mWeightsData.addWeights(deltaData), mModelVersion+1);
 	}
-	synchronized public int getModelVersion(){
+	public int getModelVersion(){
 		return mModelVersion;
 	}
-	synchronized public DnnModelDescriptor getModelDescriptor(){
+	public DnnModelDescriptor getModelDescriptor(){
 		return mModelDescriptor;
 	}
-	synchronized public Integer getNumberOfTrainingObjects() {
+	public Integer getNumberOfTrainingObjects() {
 		return mNumberOfTrainingObjects;
 	}
-	synchronized public Integer getNumberOfTestingObjects(){
+	public Integer getNumberOfTestingObjects(){
 		return mNumberOfTestingObjects;
 	}
 
 
 	// Java Native Interface callback methods ======================================================
 	//@Keep
-	synchronized private void initWeightsData_callback(){
+	private void initWeightsData_callback(){
 		mWeightsData = new DnnWeightsData();
 	}
 	//@Keep
-	synchronized private void setLayerWeights_callback(float[] weights, int layerIndex){
+	private void setLayerWeights_callback(float[] weights, int layerIndex){
 		mWeightsData.setLayerWeights(weights, layerIndex);
 	}
 	//@Keep
-	synchronized private void setLayerBiases_callback(float[] biases, int layerIndex){
+	private void setLayerBiases_callback(float[] biases, int layerIndex){
 		mWeightsData.setLayerBiases(biases, layerIndex);
 	}
 	//@Keep
-	synchronized private void getLayerWeightsData_callback(int layerIndex){
+	private void getLayerWeightsData_callback(int layerIndex){
 		float[] weights = mWeightsData.getLayerWeights(layerIndex);
 		float[] biases =  mWeightsData.getLayerBiases(layerIndex);
 		jniSetLayerWeightsData(layerIndex, weights, biases);
 	}
 
 	//@Keep
-	synchronized private void initTrainingData_callback(int numOfLabels, int numOfData, int sizeOfData){
+	private void initTrainingData_callback(int numOfLabels, int numOfData, int sizeOfData){
 		mTrainingData = new DnnTrainingData(numOfLabels, numOfData, sizeOfData);
 	}
 	//@Keep
-	synchronized private void setTrainingData_callback(int[] labels, float[] data){
+	private void setTrainingData_callback(int[] labels, float[] data){
 		mTrainingData.setLabelsData(labels);
 		mTrainingData.setData(data);
 	}
 
 	// Java Native Interface methods ===============================================================
-	synchronized private native byte[] jniCreateModel();
-	synchronized private native byte[] jniUpdateModel();
+	private native byte[] jniCreateModel();
+	private native byte[] jniUpdateModel();
 
-	synchronized private native void jniLoadModel(byte[] binaryData);
-	synchronized private native void jniTrainModel();
-	synchronized private native float jniValidateModel();
+	private native void jniLoadModel(byte[] binaryData);
+	private native void jniTrainModel();
+	private native float jniValidateModel();
 
 	private native int jniLoadTrainingData(String dataFile, String labelsFile, String dataSet);
 	private native void jniGetTrainingData(int startIndex, int endIndex);

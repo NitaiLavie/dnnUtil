@@ -7,7 +7,10 @@ import java.util.HashMap;
 public class DnnDeltaData extends DnnWeightsData{
     static final long serialVersionUID = 2L;
 
-    public DnnDeltaData(DnnWeightsData newWeights, DnnWeightsData oldWeights){
+    private Integer mModelVersion;
+
+    public DnnDeltaData(Integer modelVersion, DnnWeightsData newWeights, DnnWeightsData oldWeights){
+        mModelVersion = modelVersion;
         mWeightsData = newWeights.mWeightsData;
         mWeightsData = subtractWeights(oldWeights).mWeightsData;
     }
@@ -34,6 +37,10 @@ public class DnnDeltaData extends DnnWeightsData{
             updatedWeightsData.setLayerBiases(updatedBiases, layerIndex);
         }
         return updatedWeightsData;
+    }
+
+    public Integer getModelVesrsion() {
+        return mModelVersion;
     }
 
 }
