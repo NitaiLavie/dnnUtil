@@ -10,7 +10,7 @@ import java.util.Map;
  */
 
 public class DnnWeightsData implements Serializable {
-    static final long serialVersionUID = 4L;
+    static final long serialVersionUID = 5L;
 
     public static final Integer WEIGHT  = 0;
     public static final Integer BIAS    = 1;
@@ -52,7 +52,7 @@ public class DnnWeightsData implements Serializable {
     }
     
     public void scaleWeights(Float scale){
-    	for(int layerIndex = 0; layerIndex < mWeightsData.size(); layerIndex++){
+    	for(Integer layerIndex : mWeightsData.keySet()){
     		float[] weights = getLayerWeights(layerIndex);
     		for(int weightIndex = 0; weightIndex < weights.length; weightIndex ++){
     			weights[weightIndex] = weights[weightIndex] * scale; 
