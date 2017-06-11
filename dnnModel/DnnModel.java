@@ -97,7 +97,8 @@ public class DnnModel implements Serializable {
 	}
 	synchronized public void setDeltaData(DnnDeltaData deltaData){
 		// implementing Asynchronous Stochastic Gradient Descent with staleness scaling
-		float lambda = 1/(float)(sqrt(1 + (double)(mModelVersion - deltaData.getModelVesrsion())));
+		//float lambda = 1/(float)(sqrt(1 + (double)(mModelVersion - deltaData.getModelVesrsion())));
+		float lambda = 1 / (1 + (float)(mModelVersion - deltaData.getModelVesrsion()));
 		deltaData.scaleWeights(lambda);
 		setWeightsData(mWeightsData.addWeights(deltaData), mModelVersion+1);
 	}
