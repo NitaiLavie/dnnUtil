@@ -1,12 +1,8 @@
 package dnnUtil.dnnModel;
 
 import java.io.Serializable;
-import java.util.concurrent.locks.ReentrantLock;
-
 import dnnUtil.dnnStatistics.DnnValidationResult;
 //import android.support.annotation.Keep;
-
-import dnnUtil.dnnStatistics.DnnValidationResult;
 
 import static java.lang.Math.sqrt;
 
@@ -29,7 +25,7 @@ public class DnnModel implements Serializable {
 	// DnnModel constructors =======================================================================
 	public DnnModel(DnnModelParameters modelParameters){
 		mModelVersion = 0;
-		mNumberOfTrainingObjects = 50000; //Todo: changes this, hard coding numbers is a bad practice
+		mNumberOfTrainingObjects = 40000; //Todo: changes this, hard coding numbers is a bad practice
 		createModel(modelParameters); // maybe change this to get parameters?
 	}
 
@@ -97,8 +93,13 @@ public class DnnModel implements Serializable {
 	}
 	synchronized public void setDeltaData(DnnDeltaData deltaData){
 		// implementing Asynchronous Stochastic Gradient Descent with staleness scaling
-		//float lambda = 1/(float)(sqrt(1 + (double)(mModelVersion - deltaData.getModelVesrsion())));
-		float lambda = 1 / (1 + (float)(mModelVersion - deltaData.getModelVesrsion()));
+		float lambda = 1/(float)(sqrt(1 + (double)(mModelVersion - deltaData.getModelVesrsion())));
+//		float lambda = 1 / (1 + (float)(mModelVersion - deltaData.getModelVesrsion()));
+		
+		
+//		float tmpLambda = (float)(mModelVersion - deltaData.getModelVesrsion());
+//		float lambda = (float) (1 / (sqrt(1+tmpLambda * tmpLambda * tmpLambda)));
+		
 		deltaData.scaleWeights(lambda);
 		setWeightsData(mWeightsData.addWeights(deltaData), mModelVersion+1);
 	}
